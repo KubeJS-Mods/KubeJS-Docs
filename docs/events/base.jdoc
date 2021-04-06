@@ -1,0 +1,4 @@
+name: EventJS
+
+> cancel()
+info: Cancels the event, if it's supported
