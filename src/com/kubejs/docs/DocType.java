@@ -1,4 +1,4 @@
-package dev.latvian.docs;
+package com.kubejs.docs;
 
 /**
  * @author LatvianModder

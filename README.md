@@ -1,1 +1,63 @@
-# KubeJS-Docs
+# KubeJS Docs
+
+### Path
+
+`docs/path/to/ClassName.kjsdoc`
+
+### Class parameters
+
+- \#\# Class info
+- import path.to.ClassName as DifferentClassName (imports arent needed if the class name is unique)
+- extends ClassName (defaults to Object)
+- implements ClassName (one line for each interface)
+- typescript `void`|`number`|`string`|`boolean`|CustomTSClassName (defaults to itself)
+- type `class`|`interface`|`enum` (defaults to `class`)
+- alias DifferentClassName
+- generic E (define generic type, used for classes like List<E>, one line for each generic)
+- generic E `extends`|`super` ClassName
+- event eventname (only for event classes, one line for each event)
+- canCancel `true`|`false` (only for event classes, defaults to `false`)
+
+### Field syntax
+
+- \# Field info (will be applied to next declared field)
+- int someField
+
+### Method syntax
+
+- \# Method info (will be applied to next declared method)
+- \# @param1 Param info
+- void someMethod()
+- void someMethod(int param1)
+- void someMethod(int param1, int param2)
+
+### Member modifiers
+
+Chained before type, seperated by space, e.g. `static final int NAME`
+
+| Name | Field | Method | Parameter | Info |
+|---|---|---|---|---|
+| `nullable` | Yes | Yes | Yes | Member can be null, should be checked with if(x) first |
+| `static` | Yes | Yes | No | Member is static |
+| `final` | Yes | Yes | No | Member is immutable, trying to set it will most likely crash |
+| `onlysetter` | Yes | No | No | Opposite of final, member can be set but not get. Only ever true for bean methods with no `getX()` or `isX()` |
+
+### Example
+
+`docs/dev/latvian/kubejs/entity/LivingEntityDeathEventJS.kjsdoc`
+
+```
+## Fired when entity dies. Cancel the event to negate last damage and cancel death
+extends LivingEntityEventJS
+event entity.death
+canCancel true
+
+# Damage source from which entity was killed
+DamageSourceJS getSource()
+```
+
+### Other
+
+- It may seem weird choice to list interfacecs and events in their own lines, but its to help merging PRs easier
+- Mojang Mappings should be used for vanilla class names.
+- "Bean" methods a.k.a. `x getSomething()`, `isSomething()` and `setSomething(x)` should be documented as regular methods. The parser will figure out that they are beans.
