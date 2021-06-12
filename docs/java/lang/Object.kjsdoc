@@ -1,0 +1,20 @@
+typescript any
+
+int hashCode()
+
+String toString()
+
+boolean equals(Object obj)
+
+optional void notify()
+
+optional void notifyAll()
+
+optional void wait(long timeout)
+throws InterruptedException
+
+optional void wait(long timeout, int nanos)
+throws InterruptedException
+
+optional void wait()
+throws InterruptedException

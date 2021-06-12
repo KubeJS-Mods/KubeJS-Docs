@@ -1,0 +1,9 @@
+generic E
+
+boolean hasNext()
+
+E next()
+
+optional void remove()
+
+optional void forEachRemaining(Consumer<? super E> action)

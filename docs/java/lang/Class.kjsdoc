@@ -1,0 +1,10 @@
+alias class
+generic T
+
+String toGenericString()
+
+boolean isInstance(Object obj)
+
+boolean isAssignableFrom(Class<?> cls)
+
+String getName()

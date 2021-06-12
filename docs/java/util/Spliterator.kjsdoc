@@ -1,0 +1,4 @@
+type interface
+generic T
+
+// TODO

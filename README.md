@@ -6,13 +6,13 @@
 
 ### Class parameters
 
-- \#\# Class info
+- \# Class info
 - import path.to.ClassName (imports arent needed if the class name is unique)
 - import path.to.ClassName DifferentClassName
 - extends ClassName (defaults to Object)
 - implements ClassName (one line for each interface)
 - typescript `void`|`number`|`string`|`boolean`|CustomTSClassName (defaults to itself)
-- type `class`|`interface`|`enum` (defaults to `class`)
+- type `class`|`primitive`|`interface`|`enum`|`annotation` (defaults to `class`)
 - alias DifferentClassName
 - generic E (define generic type, used for classes like List<E>, one line for each generic)
 - generic E `extends`|`super` ClassName
@@ -21,13 +21,14 @@
 
 ### Field syntax
 
-- \# Field info (will be applied to next declared field)
+- \# Field info
 - int someField
 
 ### Method syntax
 
-- \# Method info (will be applied to next declared method)
+- \# Method info
 - \# @param1 Param info
+- throws ExceptionClassName (one line per exception)
 - void someMethod()
 - void someMethod(int param1)
 - void someMethod(int param1, int param2)
@@ -42,23 +43,40 @@ Chained before type, seperated by space, e.g. `static final int NAME`
 | `static` | Yes | Yes | No | Member is static |
 | `final` | Yes | Yes | No | Member is immutable, trying to set it will most likely crash |
 | `onlysetter` | Yes | No | No | Opposite of final, member can be set but not get. Only ever true for bean methods with no `getX()` or `isX()` |
+| `optional` | No | No | Yes | The param doesn't have to exist |
+| `deprecated` | Yes | Yes | Yes | It's no longer recommended to use this member |
+
+### Other
+
+- Info/comments come *after* fields, methods and class properties
+- It may seem weird choice to list interfacecs and events in their own lines, but its to help merging PRs easier
+- Mojang Mappings should be used for vanilla class names.
+- "Bean" methods a.k.a. `x getSomething()`, `isSomething()` and `setSomething(x)` should be documented as regular methods. The parser will figure out that they are beans.
+- You can use // comments to write text that will be ignored by compiler
+- You can reference example code with `@@exampleId` in comments
+
+You can create an example and give it ID like this:
+
+---
+
+\```exampleId Example Title
+<br>
+Example code
+<br>
+\```
+
+---
 
 ### Example
 
 `docs/dev/latvian/kubejs/entity/LivingEntityDeathEventJS.kjsdoc`
 
 ```
-## Fired when entity dies. Cancel the event to negate last damage and cancel death
 extends LivingEntityEventJS
 event entity.death
 canCancel true
+# Fired when entity dies. Cancel the event to negate last damage and cancel death
 
-# Damage source from which entity was killed
 DamageSourceJS getSource()
+# Damage source from which entity was killed
 ```
-
-### Other
-
-- It may seem weird choice to list interfacecs and events in their own lines, but its to help merging PRs easier
-- Mojang Mappings should be used for vanilla class names.
-- "Bean" methods a.k.a. `x getSomething()`, `isSomething()` and `setSomething(x)` should be documented as regular methods. The parser will figure out that they are beans.

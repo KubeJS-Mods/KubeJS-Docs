@@ -1,0 +1,30 @@
+type primitive
+extends Primitive
+typescript number
+alias number
+
+byte byteValue()
+# Convert to byte
+
+short shortValue()
+# Convert to short
+
+int intValue()
+# Convert to int
+
+long longValue()
+# Convert to long
+
+float floatValue()
+# Convert to float
+
+double doubleValue()
+# Convert to double
+
+String toString(optional int radix)
+
+String toFixed(int fractionDigits)
+
+String toExponential(int fractionDigits)
+
+String toPrecision(int precision)

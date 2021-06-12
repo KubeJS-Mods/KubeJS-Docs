@@ -1,0 +1,39 @@
+implements CharSequence
+typescript string
+alias string
+
+final int length
+
+char charAt(int index)
+
+int charCodeAt(int index)
+
+String concat(Array<String> strings)
+
+int indexOf(String searchString, optional int position)
+
+int lastIndexOf(String searchString, optional int position)
+
+int localeCompare(String that)
+
+nullable RegExpMatchArray match(RegExp pattern)
+
+String replace(RegExp searchValue, String replaceValue)
+
+// String replace(RegExp searchValue, replacer: (String substring, Array<any> args) => String)
+
+int search(RegExp pattern)
+
+String slice(optional int start, optional int end)
+
+Array<String> split(RegExp separator, optional int limit)
+
+String substring(int start, optional int end)
+
+String toLowerCase()
+
+String toUpperCase()
+
+String trim()
+
+String substr(int from, optional int length)

@@ -1,0 +1,16 @@
+type interface
+generic T
+generic S extends BaseStream<T, S>
+extends AutoCloseable
+
+Iterator<T> iterator()
+
+Spliterator<T> spliterator()
+
+boolean isParallel()
+
+S sequential()
+
+S parallel()
+
+S unordered()

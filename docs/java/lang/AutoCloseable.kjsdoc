@@ -1,0 +1,4 @@
+type interface
+
+void close()
+throws Exception
