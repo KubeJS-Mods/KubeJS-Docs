@@ -7,7 +7,8 @@
 ### Class parameters
 
 - \#\# Class info
-- import path.to.ClassName as DifferentClassName (imports arent needed if the class name is unique)
+- import path.to.ClassName (imports arent needed if the class name is unique)
+- import path.to.ClassName DifferentClassName
 - extends ClassName (defaults to Object)
 - implements ClassName (one line for each interface)
 - typescript `void`|`number`|`string`|`boolean`|CustomTSClassName (defaults to itself)
