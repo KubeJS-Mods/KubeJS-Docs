@@ -1,14 +1,15 @@
 # KubeJS Docs
 
+## Documentation file creation
+
 ### Path
 
 `docs/path/to/ClassName.kjsdoc`
 
-### Class parameters
+### Class syntax
 
 - \# Class info
-- import path.to.ClassName (imports arent needed if the class name is unique)
-- import path.to.ClassName DifferentClassName
+- displayname DisplayName
 - extends ClassName (defaults to Object)
 - implements ClassName (one line for each interface)
 - typescript `void`|`number`|`string`|`boolean`|CustomTSClassName (defaults to itself)
@@ -42,7 +43,6 @@ Chained before type, seperated by space, e.g. `static final int NAME`
 | `nullable` | Yes | Yes | Yes | Member can be null, should be checked with if(x) first |
 | `static` | Yes | Yes | No | Member is static |
 | `final` | Yes | Yes | No | Member is immutable, trying to set it will most likely crash |
-| `onlysetter` | Yes | No | No | Opposite of final, member can be set but not get. Only ever true for bean methods with no `getX()` or `isX()` |
 | `optional` | No | No | Yes | The param doesn't have to exist |
 | `deprecated` | Yes | Yes | Yes | It's no longer recommended to use this member |
 
@@ -50,8 +50,8 @@ Chained before type, seperated by space, e.g. `static final int NAME`
 
 - Info/comments come *after* fields, methods and class properties
 - It may seem weird choice to list interfacecs and events in their own lines, but its to help merging PRs easier
-- Mojang Mappings should be used for vanilla class names.
-- "Bean" methods a.k.a. `x getSomething()`, `isSomething()` and `setSomething(x)` should be documented as regular methods. The parser will figure out that they are beans.
+- Mojang Mappings should be used for vanilla class names
+- "Bean" methods a.k.a. `x getSomething()`, `isSomething()` and `setSomething(x)` should be documented as regular methods. The parser will figure out that they are beans
 - You can use // comments to write text that will be ignored by compiler
 - You can reference example code with `@@exampleId` in comments
 

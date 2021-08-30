@@ -1,0 +1,23 @@
+plugins {
+	id 'java'
+	id 'application'
+}
+
+group 'com.kubejs.docs'
+version '1.0.0'
+mainClassName = 'com.kubejs.wiki.WikiGenerator'
+
+sourceCompatibility = 16
+targetCompatibility = 16
+
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+jar {
+	manifest {
+		attributes 'Implementation-Version': archiveVersion, 'Main-Class': mainClassName
+	}
+}
