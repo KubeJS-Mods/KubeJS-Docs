@@ -1,18 +1,22 @@
 package com.kubejs.wiki.reader;
 
-import com.kubejs.wiki.WikiGenerator;
-
 public class LineReader {
-	public final WikiGenerator generator;
 	public final String string;
 	public int pos;
 
-	public LineReader(WikiGenerator g, String s) {
-		generator = g;
+	public LineReader(String s) {
 		string = s;
 	}
 
+	public boolean isEOL() {
+		return pos >= string.length();
+	}
+
 	public String read(CharTest predicate) {
+		if (isEOL()) {
+			return "";
+		}
+
 		int p0 = pos;
 
 		while (predicate.test(string.charAt(pos))) {
@@ -26,7 +30,16 @@ public class LineReader {
 		return string.substring(p0, pos);
 	}
 
-	public void skipWhitespace() {
+	public String read() {
+		return skipWhitespace().read(CharTest.W);
+	}
+
+	public String readJavaName() {
+		return skipWhitespace().read(CharTest.JAVA_W);
+	}
+
+	public LineReader skipWhitespace() {
 		read(CharTest.WHITESPACE);
+		return this;
 	}
 }

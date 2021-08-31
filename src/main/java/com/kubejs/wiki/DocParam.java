@@ -2,15 +2,13 @@ package com.kubejs.wiki;
 
 import com.kubejs.wiki.json.JsonObject;
 
-public class DocParam {
-	public DocType type;
+public class DocParam extends TypedDocumentedObject {
 	public boolean modNullable = false;
 	public boolean modOptional = false;
-	public boolean modDeprecated = false;
 
+	@Override
 	public JsonObject toJson() {
-		JsonObject o = new JsonObject();
-		o.add("type", type.toJson());
+		JsonObject o = super.toJson();
 
 		if (modNullable) {
 			o.add("nullable", true);
@@ -18,10 +16,6 @@ public class DocParam {
 
 		if (modOptional) {
 			o.add("optional", true);
-		}
-
-		if (modDeprecated) {
-			o.add("deprecated", true);
 		}
 
 		return o;

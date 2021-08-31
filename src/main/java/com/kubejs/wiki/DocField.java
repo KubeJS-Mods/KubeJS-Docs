@@ -8,9 +8,9 @@ public class DocField extends TypedDocumentedObject {
 	public boolean modFinal = false;
 	public boolean modDeprecated = false;
 
+	@Override
 	public JsonObject toJson() {
-		JsonObject o = new JsonObject();
-		o.add("type", type.toJson());
+		JsonObject o = super.toJson();
 
 		if (modNullable) {
 			o.add("nullable", true);

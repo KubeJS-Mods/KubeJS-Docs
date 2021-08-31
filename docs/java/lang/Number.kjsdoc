@@ -21,7 +21,9 @@ float floatValue()
 double doubleValue()
 # Convert to double
 
-String toString(optional int radix)
+String toString()
+
+String toString(int radix)
 
 String toFixed(int fractionDigits)
 

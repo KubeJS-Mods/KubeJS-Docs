@@ -1,6 +1,8 @@
 package com.kubejs.wiki;
 
 import com.kubejs.wiki.json.JsonObject;
+import com.kubejs.wiki.reader.CharTest;
+import com.kubejs.wiki.reader.LineReader;
 
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
@@ -14,21 +16,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * @author LatvianModder
  */
 public class WikiGenerator {
+	public static final Pattern WHITESPACE = Pattern.compile("\\s");
+	public static final Pattern WORD_BOUNDRY = Pattern.compile("\\b");
+
 	public static void main(String[] args) throws Exception {
-		new WikiGenerator(System.getenv("KUBEJS_DOCS_TOKEN")).run();
+		new WikiGenerator().run(System.getenv("KUBEJS_DOCS_TOKEN"));
 	}
 
-	private final String token;
 	public final List<DocClass> classes;
 	public final Map<String, DocClass> classLookup;
 
-	public WikiGenerator(String t) {
-		token = t;
+	public WikiGenerator() {
 		classes = new ArrayList<>();
 		classLookup = new HashMap<>();
 	}
@@ -43,7 +47,7 @@ public class WikiGenerator {
 		return c;
 	}
 
-	public void run() throws Exception {
+	public void run(String token) throws Exception {
 		Path docs = Paths.get("docs").normalize().toAbsolutePath();
 		String docsString = docs.toString().replace('\\', '/');
 
@@ -84,6 +88,162 @@ public class WikiGenerator {
 			classLookup.put(c.path, c);
 		}
 
+		for (DocClass c : classes) {
+			TypedDocumentedObject lastObject = c;
+
+			String exampleId = "";
+			String exampleTitle = "";
+			List<String> exampleLines = new ArrayList<>();
+
+			for (int line = 0; line < c.lines.size(); line++) {
+				try {
+					String s = c.lines.get(line).trim();
+
+					if (s.startsWith("```")) {
+						if (exampleId.isEmpty()) {
+							String[] s1 = s.substring(3).split(" ", 2);
+							exampleId = s1[0];
+							exampleTitle = s1.length == 2 ? s1[1] : "";
+						} else {
+							DocExample e = new DocExample();
+							e.id = exampleId;
+							e.title = exampleTitle;
+							e.text = new ArrayList<>(exampleLines);
+							c.examples.add(e);
+							exampleId = "";
+							exampleTitle = "";
+						}
+					} else if (!exampleId.isEmpty()) {
+						exampleLines.add(s);
+					} else if (s.startsWith("#")) {
+						String s1 = s.substring(1).trim();
+
+						if (s1.startsWith("@") && lastObject instanceof DocMethod) {
+							int si = s1.indexOf(' ');
+							String pname = s1.substring(1, si);
+							DocParam param = ((DocMethod) lastObject).params.stream().filter(p -> p.type.name.equals(pname)).findFirst().orElse(null);
+
+							if (param != null) {
+								param.info.add(s1.substring(si + 1).trim());
+							} else {
+								throw new RuntimeException("Can't find param " + pname + "!");
+							}
+						} else {
+							lastObject.info.add(s1);
+						}
+					} else if (!s.isEmpty() && !s.startsWith("//")) {
+						LineReader reader = new LineReader(s);
+						String type = reader.readJavaName();
+
+						switch (type) {
+							case "extends" -> c.extendsClass = readType(c, reader);
+							case "implements" -> c.implementsClass.add(readType(c, reader));
+							case "typescript" -> c.typescript = reader.read();
+							case "type" -> c.classtype = reader.read();
+							case "generic" -> c.generics.add(reader.readJavaName());
+							case "event" -> c.events.add(reader.readJavaName());
+							case "canCancel" -> c.canCancel = reader.read().equalsIgnoreCase("true");
+							case "throws" -> {
+								if (lastObject instanceof DocMethod) {
+									((DocMethod) lastObject).throwsTypes.add(reader.readJavaName());
+								}
+							}
+							case "displayname", "alias" -> {
+								// Ignore
+							}
+							default -> {
+								String t = type;
+								boolean modNullable = false;
+								boolean modStatic = false;
+								boolean modFinal = false;
+								boolean modDeprecated = false;
+								boolean modOptional = false;
+
+								if (t.equals("nullable")) {
+									modNullable = true;
+									t = reader.read();
+								}
+
+								if (t.equals("static")) {
+									modStatic = true;
+									t = reader.read();
+								}
+
+								if (t.equals("final")) {
+									modFinal = true;
+									t = reader.read();
+								}
+
+								if (t.equals("deprecated")) {
+									modDeprecated = true;
+									t = reader.read();
+								}
+
+								if (t.equals("optional")) {
+									modOptional = true;
+									t = reader.read();
+								}
+
+								DocType dt = readType(c, t, reader);
+								dt.name = reader.read();
+
+								if (reader.skipWhitespace().read(CharTest.FUNC_OPEN).equals("(")) {
+									DocMethod method = new DocMethod();
+									method.type = dt;
+									lastObject = method;
+									method.modNullable = modNullable;
+									method.modStatic = modStatic;
+									method.modFinal = modFinal;
+									method.modDeprecated = modDeprecated;
+									method.modOptional = modOptional;
+
+									if (!reader.skipWhitespace().read(CharTest.FUNC_CLOSE).equals(")")) {
+										do {
+											String pt = reader.readJavaName();
+											boolean pNullable = false;
+											boolean pOptional = false;
+
+											if (t.equals("nullable")) {
+												pNullable = true;
+												t = reader.read();
+											}
+
+											if (t.equals("optional")) {
+												pOptional = true;
+												t = reader.read();
+											}
+
+											DocParam p = new DocParam();
+											p.type = readType(c, pt, reader);
+											p.type.name = reader.read();
+											p.modNullable = pNullable;
+											p.modOptional = pOptional;
+											method.params.add(p);
+										} while (!reader.isEOL() && !reader.skipWhitespace().read(CharTest.FUNC_CLOSE_OR_COMMA).equals(")"));
+									}
+
+									c.methods.add(method);
+								} else {
+									DocField field = new DocField();
+									field.type = dt;
+									lastObject = field;
+									field.modNullable = modNullable;
+									field.modStatic = modStatic;
+									field.modFinal = modFinal;
+									field.modDeprecated = modDeprecated;
+									c.fields.add(field);
+								}
+
+								System.out.println(dt);
+							}
+						}
+					}
+				} catch (Exception ex) {
+					throw new RuntimeException("Failed to handle line #" + (line + 1) + " '" + c.lines.get(line) + "' of " + c.path, ex);
+				}
+			}
+		}
+
 		JsonObject json = new JsonObject();
 
 		for (DocClass c : classes) {
@@ -98,6 +258,11 @@ public class WikiGenerator {
 		System.out.println();
 		System.out.println(jsonString);
 		System.out.println();
+
+		if (token == null || token.isBlank()) {
+			System.out.println("No token provided! Exiting...");
+			return;
+		}
 
 		HttpURLConnection connection = (HttpURLConnection) new URL("https://wiki.kubejs.com/upload").openConnection();
 		connection.setRequestMethod("POST");
@@ -116,6 +281,31 @@ public class WikiGenerator {
 		}
 
 		connection.disconnect();
-		// test
+	}
+
+	private DocType readType(DocClass context, String type, LineReader reader) {
+		reader.skipWhitespace();
+		DocType t = new DocType();
+
+		if (context.generics.contains(type)) {
+			t.typeClass = new DocClass();
+			t.typeClass.path = type;
+		} else {
+			t.typeClass = requireClass(type);
+
+			if (reader.read(CharTest.DIAMOND_OPEN).equals("<")) {
+				t.generics.add(readType(context, reader));
+
+				while (reader.read(CharTest.DIAMOND_CLOSE_OR_COMMA).equals(",")) {
+					t.generics.add(readType(context, reader));
+				}
+			}
+		}
+
+		return t;
+	}
+
+	private DocType readType(DocClass context, LineReader reader) {
+		return readType(context, reader.readJavaName(), reader);
 	}
 }

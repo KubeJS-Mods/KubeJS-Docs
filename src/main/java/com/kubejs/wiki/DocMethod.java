@@ -12,11 +12,12 @@ public class DocMethod extends TypedDocumentedObject {
 	public boolean modStatic = false;
 	public boolean modFinal = false;
 	public boolean modDeprecated = false;
-	public List<DocType> throwsTypes = new ArrayList<>(0);
+	public boolean modOptional = false;
+	public List<String> throwsTypes = new ArrayList<>(0);
 
+	@Override
 	public JsonObject toJson() {
-		JsonObject o = new JsonObject();
-		o.add("type", type.toJson());
+		JsonObject o = super.toJson();
 
 		if (!params.isEmpty()) {
 			JsonArray a = new JsonArray();
@@ -44,11 +45,15 @@ public class DocMethod extends TypedDocumentedObject {
 			o.add("deprecated", true);
 		}
 
+		if (modOptional) {
+			o.add("optional", true);
+		}
+
 		if (!throwsTypes.isEmpty()) {
 			JsonArray a = new JsonArray();
 
-			for (DocType p : throwsTypes) {
-				a.add(p.toJson());
+			for (String p : throwsTypes) {
+				a.add(p);
 			}
 
 			o.add("throws", a);

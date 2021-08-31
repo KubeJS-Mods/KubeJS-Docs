@@ -43,8 +43,8 @@ Chained before type, seperated by space, e.g. `static final int NAME`
 | `nullable` | Yes | Yes | Yes | Member can be null, should be checked with if(x) first |
 | `static` | Yes | Yes | No | Member is static |
 | `final` | Yes | Yes | No | Member is immutable, trying to set it will most likely crash |
-| `optional` | No | No | Yes | The param doesn't have to exist |
-| `deprecated` | Yes | Yes | Yes | It's no longer recommended to use this member |
+| `optional` | No | Yes | Yes | The param doesn't have to exist. In methods its used to indicate default methods in interface |
+| `deprecated` | Yes | Yes | No | It's no longer recommended to use this member |
 
 ### Other
 
@@ -80,3 +80,7 @@ canCancel true
 DamageSourceJS getSource()
 # Damage source from which entity was killed
 ```
+
+### Testing
+
+You can test if docs build properly if you have JDK 16 and you run `./gradlew run`

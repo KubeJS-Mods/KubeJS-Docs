@@ -5,6 +5,6 @@ String toGenericString()
 
 boolean isInstance(Object obj)
 
-boolean isAssignableFrom(Class<?> cls)
+boolean isAssignableFrom(Class<Object> cls)
 
 String getName()

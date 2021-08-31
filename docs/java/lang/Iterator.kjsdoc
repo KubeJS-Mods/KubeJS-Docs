@@ -6,4 +6,4 @@ E next()
 
 optional void remove()
 
-optional void forEachRemaining(Consumer<? super E> action)
+optional void forEachRemaining(Consumer<E> action)

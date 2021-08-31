@@ -10,13 +10,17 @@ int charCodeAt(int index)
 
 String concat(Array<String> strings)
 
-int indexOf(String searchString, optional int position)
+int indexOf(String searchString)
 
-int lastIndexOf(String searchString, optional int position)
+int indexOf(String searchString, int position)
+
+int lastIndexOf(String searchString)
+
+int lastIndexOf(String searchString, int position)
 
 int localeCompare(String that)
 
-nullable RegExpMatchArray match(RegExp pattern)
+// nullable RegExpMatchArray match(RegExp pattern)
 
 String replace(RegExp searchValue, String replaceValue)
 
@@ -24,11 +28,19 @@ String replace(RegExp searchValue, String replaceValue)
 
 int search(RegExp pattern)
 
-String slice(optional int start, optional int end)
+String slice()
 
-Array<String> split(RegExp separator, optional int limit)
+String slice(int start)
 
-String substring(int start, optional int end)
+String slice(int start, int end)
+
+Array<String> split(RegExp separator)
+
+Array<String> split(RegExp separator, int limit)
+
+String substring(int start)
+
+String substring(int start, int end)
 
 String toLowerCase()
 
@@ -36,4 +48,6 @@ String toUpperCase()
 
 String trim()
 
-String substr(int from, optional int length)
+String substr(int from)
+
+String substr(int from, int length)

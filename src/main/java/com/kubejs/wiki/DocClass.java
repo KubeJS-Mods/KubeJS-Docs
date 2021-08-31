@@ -17,24 +17,23 @@ public class DocClass extends TypedDocumentedObject {
 	public String name = "";
 	public String classtype = "class";
 	public String typescript = "";
-	public DocClass extendsClass;
-	public List<DocType> generics = new ArrayList<>(0);
-	public List<DocClass> implementsClass = new ArrayList<>(0);
-	public List<DocConstructor> constructors = new ArrayList<>(0);
+	public DocType extendsClass;
+	public List<String> generics = new ArrayList<>(0);
+	public List<DocType> implementsClass = new ArrayList<>(0);
 	public List<DocField> fields = new ArrayList<>(0);
 	public List<DocMethod> methods = new ArrayList<>(5);
 	public List<String> events = new ArrayList<>(0);
 	public Boolean canCancel = null;
-
-	public TypedDocumentedObject lastObject = this;
+	public List<DocExample> examples = new ArrayList<>(0);
 
 	public String getPathName() {
 		int i = path.lastIndexOf('/');
 		return i == -1 ? path : path.substring(i + 1);
 	}
 
+	@Override
 	public JsonObject toJson() {
-		JsonObject o = new JsonObject();
+		JsonObject o = super.toJson();
 
 		if (!name.isEmpty()) {
 			o.add("name", name);
@@ -49,14 +48,14 @@ public class DocClass extends TypedDocumentedObject {
 		}
 
 		if (extendsClass != null) {
-			o.add("extends", extendsClass.path);
+			o.add("extends", extendsClass.toJson());
 		}
 
 		if (!generics.isEmpty()) {
 			JsonArray a = new JsonArray();
 
-			for (DocType s : generics) {
-				a.add(s.toJson());
+			for (String s : generics) {
+				a.add(s);
 			}
 
 			o.add("generics", a);
@@ -65,21 +64,11 @@ public class DocClass extends TypedDocumentedObject {
 		if (!implementsClass.isEmpty()) {
 			JsonArray a = new JsonArray();
 
-			for (DocClass c : implementsClass) {
-				a.add(c.path);
-			}
-
-			o.add("implements", a);
-		}
-
-		if (!constructors.isEmpty()) {
-			JsonArray a = new JsonArray();
-
-			for (DocConstructor c : constructors) {
+			for (DocType c : implementsClass) {
 				a.add(c.toJson());
 			}
 
-			o.add("constructors", a);
+			o.add("implements", a);
 		}
 
 		if (!fields.isEmpty()) {
@@ -114,6 +103,16 @@ public class DocClass extends TypedDocumentedObject {
 
 		if (canCancel != null) {
 			o.add("canCancel", canCancel);
+		}
+
+		if (!examples.isEmpty()) {
+			JsonArray a = new JsonArray();
+
+			for (DocExample e : examples) {
+				a.add(e.toJson());
+			}
+
+			o.add("examples", a);
 		}
 
 		return o;

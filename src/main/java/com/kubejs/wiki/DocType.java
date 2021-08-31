@@ -41,4 +41,34 @@ public class DocType {
 
 		return o;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		append(sb);
+		return sb.toString();
+	}
+
+	public void append(StringBuilder sb) {
+		if (!name.isEmpty()) {
+			sb.append(name);
+			sb.append(' ');
+		}
+
+		sb.append(typeClass.path);
+
+		if (!generics.isEmpty()) {
+			sb.append('<');
+
+			for (int i = 0; i < generics.size(); i++) {
+				if (i > 0) {
+					sb.append(',');
+				}
+
+				generics.get(i).append(sb);
+			}
+
+			sb.append('>');
+		}
+	}
 }

@@ -1,0 +1,11 @@
+int lastIndex
+
+boolean ignoreCase
+
+boolean multiline
+
+String source
+
+RegExp compile()
+
+boolean test(String string)
