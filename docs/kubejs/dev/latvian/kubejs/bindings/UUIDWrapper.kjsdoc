@@ -1,0 +1,5 @@
+binding UUID
+
+static String toString(UUID id)
+
+nullable static UUID fromString(String string)

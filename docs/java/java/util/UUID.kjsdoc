@@ -1,0 +1,7 @@
+long getLeastSignificantBits()
+
+long getMostSignificantBits()
+
+int version()
+
+int variant()

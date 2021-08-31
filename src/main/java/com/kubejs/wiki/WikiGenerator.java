@@ -1,10 +1,12 @@
 package com.kubejs.wiki;
 
+import com.kubejs.wiki.json.JsonArray;
 import com.kubejs.wiki.json.JsonObject;
 import com.kubejs.wiki.reader.CharTest;
 import com.kubejs.wiki.reader.LineReader;
 
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,28 +14,25 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * @author LatvianModder
  */
 public class WikiGenerator {
-	public static final Pattern WHITESPACE = Pattern.compile("\\s");
-	public static final Pattern WORD_BOUNDRY = Pattern.compile("\\b");
-
 	public static void main(String[] args) throws Exception {
 		new WikiGenerator().run(System.getenv("KUBEJS_DOCS_TOKEN"));
 	}
 
-	public final List<DocClass> classes;
+	public final List<DocNamespace> namespaces;
 	public final Map<String, DocClass> classLookup;
 
 	public WikiGenerator() {
-		classes = new ArrayList<>();
+		namespaces = new ArrayList<>();
 		classLookup = new HashMap<>();
 	}
 
@@ -49,17 +48,42 @@ public class WikiGenerator {
 
 	public void run(String token) throws Exception {
 		Path docs = Paths.get("docs").normalize().toAbsolutePath();
-		String docsString = docs.toString().replace('\\', '/');
+		List<DocClass> classes = new ArrayList<>();
 
-		System.out.println("Loading docs from " + docsString);
+		Files.list(docs).filter(Files::isDirectory).forEach(dir -> {
+			DocNamespace namespace = new DocNamespace();
+			namespace.namespace = dir.getFileName().toString();
+			String docsString = dir.toString().replace('\\', '/');
 
-		Files.walk(docs).filter(p -> p.getFileName().toString().endsWith(".kjsdoc")).forEach(p -> {
-			DocClass c = new DocClass();
-			c.file = p.normalize().toAbsolutePath();
-			String pathString0 = c.file.toString().replace('\\', '/').replace(docsString, "");
-			c.path = pathString0.substring(1, pathString0.length() - 7);
-			System.out.println("- " + c.path);
-			classes.add(c);
+			System.out.println("Loading docs from " + docsString);
+
+			Path readme = dir.resolve("README.md");
+
+			if (Files.exists(readme)) {
+				try {
+					namespace.info.addAll(Files.readAllLines(readme));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			try {
+				Files.walk(dir).filter(p -> p.getFileName().toString().endsWith(".kjsdoc")).forEach(p -> {
+					DocClass c = new DocClass();
+					c.namespace = namespace;
+					c.file = p.normalize().toAbsolutePath();
+					String pathString0 = c.file.toString().replace('\\', '/').replace(docsString, "");
+					c.path = pathString0.substring(1, pathString0.length() - 7);
+					System.out.println("- " + c.path);
+					namespace.classes.add(c);
+					classes.add(c);
+					c.id = classes.size();
+				});
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			namespaces.add(namespace);
 		});
 
 		for (DocClass c : classes) {
@@ -141,8 +165,9 @@ public class WikiGenerator {
 							case "typescript" -> c.typescript = reader.read();
 							case "type" -> c.classtype = reader.read();
 							case "generic" -> c.generics.add(reader.readJavaName());
-							case "event" -> c.events.add(reader.readJavaName());
+							case "event" -> c.events.add(reader.read(CharTest.EVENT_ID));
 							case "canCancel" -> c.canCancel = reader.read().equalsIgnoreCase("true");
+							case "binding" -> c.binding = reader.readJavaName();
 							case "throws" -> {
 								if (lastObject instanceof DocMethod) {
 									((DocMethod) lastObject).throwsTypes.add(reader.readJavaName());
@@ -245,10 +270,15 @@ public class WikiGenerator {
 		}
 
 		JsonObject json = new JsonObject();
+		json.add("version", Instant.now().toString());
 
-		for (DocClass c : classes) {
-			json.add(c.path, c.toJson());
+		JsonArray narray = new JsonArray();
+
+		for (DocNamespace n : namespaces) {
+			narray.add(n.toJson());
 		}
+
+		json.add("namespaces", narray);
 
 		String jsonString = json.toString();
 		byte[] jsonBytes = jsonString.getBytes(StandardCharsets.UTF_8);

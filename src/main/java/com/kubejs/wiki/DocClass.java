@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class DocClass extends TypedDocumentedObject {
 	public Path file;
+	public DocNamespace namespace;
+	public long id = 0L;
 	public List<String> lines;
 	public String path = "";
 	public String name = "";
@@ -25,6 +27,7 @@ public class DocClass extends TypedDocumentedObject {
 	public List<String> events = new ArrayList<>(0);
 	public Boolean canCancel = null;
 	public List<DocExample> examples = new ArrayList<>(0);
+	public String binding = "";
 
 	public String getPathName() {
 		int i = path.lastIndexOf('/');
@@ -34,6 +37,9 @@ public class DocClass extends TypedDocumentedObject {
 	@Override
 	public JsonObject toJson() {
 		JsonObject o = super.toJson();
+
+		o.add("id", id);
+		o.add("path", path);
 
 		if (!name.isEmpty()) {
 			o.add("name", name);
@@ -45,6 +51,34 @@ public class DocClass extends TypedDocumentedObject {
 
 		if (!typescript.isEmpty()) {
 			o.add("typescript", typescript);
+		}
+
+		if (!events.isEmpty()) {
+			JsonArray a = new JsonArray();
+
+			for (String s : events) {
+				a.add(s);
+			}
+
+			o.add("events", a);
+		}
+
+		if (canCancel != null) {
+			o.add("canCancel", canCancel);
+		}
+
+		if (!examples.isEmpty()) {
+			JsonArray a = new JsonArray();
+
+			for (DocExample e : examples) {
+				a.add(e.toJson());
+			}
+
+			o.add("examples", a);
+		}
+
+		if (!binding.isEmpty()) {
+			o.add("binding", binding);
 		}
 
 		if (extendsClass != null) {
@@ -89,30 +123,6 @@ public class DocClass extends TypedDocumentedObject {
 			}
 
 			o.add("methods", a);
-		}
-
-		if (!events.isEmpty()) {
-			JsonArray a = new JsonArray();
-
-			for (String s : events) {
-				a.add(s);
-			}
-
-			o.add("events", a);
-		}
-
-		if (canCancel != null) {
-			o.add("canCancel", canCancel);
-		}
-
-		if (!examples.isEmpty()) {
-			JsonArray a = new JsonArray();
-
-			for (DocExample e : examples) {
-				a.add(e.toJson());
-			}
-
-			o.add("examples", a);
 		}
 
 		return o;

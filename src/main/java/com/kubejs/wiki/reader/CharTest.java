@@ -18,7 +18,8 @@ public interface CharTest {
 	CharTest DIGIT = new RangeCharTest('0', '9');
 	CharTest AZ = new OrCharTest(AZ_L, AZ_U);
 	CharTest W = new OrCharTest(AZ, new OrCharTest(DIGIT, UNDERSCORE));
-	CharTest JAVA_W = new OrCharTest(W, DOLLAR);
+	CharTest JAVA_W = new OrCharTest(W, new OrCharTest(DOLLAR, PERIOD));
+	CharTest EVENT_ID = new OrCharTest(JAVA_W, new OrCharTest(DIAMOND_OPEN, DIAMOND_CLOSE));
 	CharTest WHITESPACE = new RangeCharTest((char) 0, ' ');
 	CharTest DIAMOND_CLOSE_OR_COMMA = new OrCharTest(DIAMOND_CLOSE, COMMA);
 	CharTest FUNC_CLOSE_OR_COMMA = new OrCharTest(FUNC_CLOSE, COMMA);

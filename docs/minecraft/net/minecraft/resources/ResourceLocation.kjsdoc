@@ -1,0 +1,3 @@
+String getNamespace()
+
+String getPath()

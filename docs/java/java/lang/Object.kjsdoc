@@ -4,7 +4,7 @@ int hashCode()
 
 String toString()
 
-boolean equals(Object obj)
+boolean equals(Object other)
 
 optional void notify()
 

@@ -19,16 +19,6 @@ public class DocMethod extends TypedDocumentedObject {
 	public JsonObject toJson() {
 		JsonObject o = super.toJson();
 
-		if (!params.isEmpty()) {
-			JsonArray a = new JsonArray();
-
-			for (DocParam p : params) {
-				a.add(p.toJson());
-			}
-
-			o.add("params", a);
-		}
-
 		if (modNullable) {
 			o.add("nullable", true);
 		}
@@ -57,6 +47,16 @@ public class DocMethod extends TypedDocumentedObject {
 			}
 
 			o.add("throws", a);
+		}
+
+		if (!params.isEmpty()) {
+			JsonArray a = new JsonArray();
+
+			for (DocParam p : params) {
+				a.add(p.toJson());
+			}
+
+			o.add("params", a);
 		}
 
 		return o;

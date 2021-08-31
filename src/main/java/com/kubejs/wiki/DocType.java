@@ -2,6 +2,7 @@ package com.kubejs.wiki;
 
 import com.kubejs.wiki.json.JsonArray;
 import com.kubejs.wiki.json.JsonElement;
+import com.kubejs.wiki.json.JsonNumber;
 import com.kubejs.wiki.json.JsonObject;
 import com.kubejs.wiki.json.JsonString;
 
@@ -18,12 +19,20 @@ public class DocType {
 
 	public JsonElement toJson() {
 		if (name.isEmpty() && generics.isEmpty()) {
-			return new JsonString(typeClass.path);
+			if (typeClass.id == 0L) {
+				return new JsonString(typeClass.path);
+			} else {
+				return new JsonNumber(typeClass.id);
+			}
 		}
 
 		JsonObject o = new JsonObject();
 
-		o.add("type", typeClass.path);
+		if (typeClass.id == 0L) {
+			o.add("class", typeClass.path);
+		} else {
+			o.add("class", typeClass.id);
+		}
 
 		if (!name.isEmpty()) {
 			o.add("name", name);

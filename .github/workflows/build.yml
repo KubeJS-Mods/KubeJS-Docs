@@ -33,5 +33,5 @@ jobs:
         env:
           KUBEJS_DOCS_TOKEN: ${{ secrets.KUBEJS_DOCS_TOKEN }}
         run: |
-          chmod +x ./gradlew
+          chmod +x gradlew
           ./gradlew run --stacktrace

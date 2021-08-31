@@ -4,7 +4,8 @@
 
 ### Path
 
-`docs/path/to/ClassName.kjsdoc`
+- `docs/namespace/path/to/ClassName.kjsdoc`
+- `docs/namespace/README.md`
 
 ### Class syntax
 
@@ -16,9 +17,9 @@
 - type `class`|`primitive`|`interface`|`enum`|`annotation` (defaults to `class`)
 - alias DifferentClassName
 - generic E (define generic type, used for classes like List<E>, one line for each generic)
-- generic E `extends`|`super` ClassName
 - event eventname (only for event classes, one line for each event)
 - canCancel `true`|`false` (only for event classes, defaults to `false`)
+- binding JSClassName (used for global bindings such as UUIDWrapper as UUID)
 
 ### Field syntax
 
