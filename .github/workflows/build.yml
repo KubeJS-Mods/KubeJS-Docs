@@ -29,9 +29,9 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '16'
-      - name: Build and Upload
+      - name: Set up Gradle
+        run: chmod +x gradlew
+      - name: Generate Docs
         env:
           KUBEJS_DOCS_TOKEN: ${{ secrets.KUBEJS_DOCS_TOKEN }}
-        run: |
-          chmod +x gradlew
-          ./gradlew run --stacktrace
+        run: ./gradlew run --stacktrace
