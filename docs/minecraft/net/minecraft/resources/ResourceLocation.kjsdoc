@@ -1,3 +1,6 @@
+# Resource Location is what minecraft calls it's namespaced IDs. For example minecraft:stone or thermal:copper_ingot
+# They are used by many things such as items, blocks, basically, almost all registries. KubeJS lets you pass a string directly where RL is required
+
 String getNamespace()
 
 String getPath()

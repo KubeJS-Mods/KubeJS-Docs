@@ -1,4 +1,4 @@
-type interface
+interface
 generic T
 
 // TODO

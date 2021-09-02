@@ -16,7 +16,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -29,21 +32,29 @@ public class WikiGenerator {
 	}
 
 	public final List<DocNamespace> namespaces;
-	public final Map<String, DocClass> classLookup;
+	public final Map<String, Collection<DocClass>> classLookup;
+	public final Map<String, Collection<DocClass>> uniqueNames;
 
 	public WikiGenerator() {
 		namespaces = new ArrayList<>();
 		classLookup = new HashMap<>();
+		uniqueNames = new HashMap<>();
 	}
 
 	public DocClass requireClass(String s) {
-		DocClass c = classLookup.get(s);
+		Collection<DocClass> c = classLookup.getOrDefault(s, Collections.emptyList());
 
-		if (c == null) {
-			throw new RuntimeException("Class '" + s + "' not found!");
+		if (c.isEmpty()) {
+			throw new DocException("Class '" + s + "' not found!");
+		} else if (c.size() >= 2) {
+			throw new DocException("Class '" + s + "' has ambiguous name! Shared classes: " + c);
 		}
 
-		return c;
+		return c.iterator().next();
+	}
+
+	public void addLookup(String s, DocClass c) {
+		classLookup.computeIfAbsent(s, s1 -> new HashSet<>()).add(c);
 	}
 
 	public void run(String token) throws Exception {
@@ -63,7 +74,7 @@ public class WikiGenerator {
 				try {
 					namespace.info.addAll(Files.readAllLines(readme));
 				} catch (IOException e) {
-					e.printStackTrace();
+					throw new DocException("", e);
 				}
 			}
 
@@ -73,43 +84,47 @@ public class WikiGenerator {
 					c.namespace = namespace;
 					c.file = p.normalize().toAbsolutePath();
 					String pathString0 = c.file.toString().replace('\\', '/').replace(docsString, "");
-					c.path = pathString0.substring(1, pathString0.length() - 7);
+					c.path = pathString0.substring(1, pathString0.length() - 7).replace('/', '.');
 					System.out.println("- " + c.path);
 					namespace.classes.add(c);
 					classes.add(c);
 					c.id = classes.size();
+
+					try {
+						c.lines = Files.readAllLines(c.file);
+					} catch (IOException e) {
+						throw new DocException("", e);
+					}
+
+					for (String s : c.lines) {
+						if (s.startsWith("alias ")) {
+							String s1 = s.substring(6).trim();
+
+							if (!s1.isEmpty()) {
+								addLookup(s1, c);
+							}
+						}
+					}
+
+					addLookup(c.getPathName(), c);
+					addLookup(c.path, c);
+					uniqueNames.computeIfAbsent(c.getPathName(), s -> new ArrayList<>()).add(c);
 				});
 			} catch (IOException e) {
-				e.printStackTrace();
+				throw new DocException("", e);
 			}
 
 			namespaces.add(namespace);
 		});
 
-		for (DocClass c : classes) {
-			c.lines = Files.readAllLines(c.file);
-
-			for (String s : c.lines) {
-				if (s.startsWith("alias ")) {
-					String s1 = s.substring(6).trim();
-
-					if (!s1.isEmpty()) {
-						classLookup.put(s1, c);
-					}
-				} else if (s.startsWith("displayname ")) {
-					c.name = s.substring(12).trim();
+		for (Map.Entry<String, Collection<DocClass>> entry : uniqueNames.entrySet()) {
+			if (entry.getValue().size() == 1) {
+				entry.getValue().iterator().next().unique = entry.getKey();
+			} else {
+				for (DocClass c : entry.getValue()) {
+					c.unique = c.path;
 				}
 			}
-
-			if (!c.name.isEmpty()) {
-				classLookup.put(c.name, c);
-			}
-		}
-
-		for (DocClass c : classes) {
-			classLookup.put(c.getPathName(), c);
-			classLookup.put(c.path.replace('/', '.'), c);
-			classLookup.put(c.path, c);
 		}
 
 		for (DocClass c : classes) {
@@ -140,32 +155,20 @@ public class WikiGenerator {
 					} else if (!exampleId.isEmpty()) {
 						exampleLines.add(s);
 					} else if (s.startsWith("#")) {
-						String s1 = s.substring(1).trim();
-
-						if (s1.startsWith("@") && lastObject instanceof DocMethod) {
-							int si = s1.indexOf(' ');
-							String pname = s1.substring(1, si);
-							DocParam param = ((DocMethod) lastObject).params.stream().filter(p -> p.type.name.equals(pname)).findFirst().orElse(null);
-
-							if (param != null) {
-								param.info.add(s1.substring(si + 1).trim());
-							} else {
-								throw new RuntimeException("Can't find param " + pname + "!");
-							}
-						} else {
-							lastObject.info.add(s1);
-						}
+						lastObject.info.add(s.substring(1).trim());
 					} else if (!s.isEmpty() && !s.startsWith("//")) {
 						LineReader reader = new LineReader(s);
 						String type = reader.readJavaName();
 
 						switch (type) {
-							case "extends" -> c.extendsClass = readType(c, reader);
-							case "implements" -> c.implementsClass.add(readType(c, reader));
+							case "extends" -> c.extendsType = readType(c, reader);
+							case "implements" -> c.implementsTypes.add(readType(c, reader));
+							case "primitive", "interface", "enum", "annotation" -> c.classType = type;
 							case "typescript" -> c.typescript = reader.read();
-							case "type" -> c.classtype = reader.read();
+							case "displayName" -> c.displayName = reader.readJavaName();
 							case "generic" -> c.generics.add(reader.readJavaName());
 							case "event" -> c.events.add(reader.read(CharTest.EVENT_ID));
+							case "recipe" -> c.recipes.add(reader.read(CharTest.RESOURCE_LOCATION));
 							case "canCancel" -> c.canCancel = reader.read().equalsIgnoreCase("true");
 							case "binding" -> c.binding = reader.readJavaName();
 							case "throws" -> {
@@ -183,34 +186,47 @@ public class WikiGenerator {
 								boolean modFinal = false;
 								boolean modDeprecated = false;
 								boolean modOptional = false;
+								boolean modItself = false;
 
 								if (t.equals("nullable")) {
 									modNullable = true;
-									t = reader.read();
+									t = reader.readJavaName();
 								}
 
 								if (t.equals("static")) {
 									modStatic = true;
-									t = reader.read();
+									t = reader.readJavaName();
 								}
 
 								if (t.equals("final")) {
 									modFinal = true;
-									t = reader.read();
+									t = reader.readJavaName();
 								}
 
 								if (t.equals("deprecated")) {
 									modDeprecated = true;
-									t = reader.read();
+									t = reader.readJavaName();
 								}
 
 								if (t.equals("optional")) {
+									if (modFinal) {
+										throw new DocException("Can't mix 'optional' and 'final'!");
+									}
+
 									modOptional = true;
-									t = reader.read();
+									t = reader.readJavaName();
 								}
 
-								DocType dt = readType(c, t, reader);
-								dt.name = reader.read();
+								if (t.equals("itself")) {
+									if (modStatic) {
+										throw new DocException("Can't mix 'itself' and 'static'!");
+									}
+
+									modItself = true;
+								}
+
+								DocType dt = modItself ? c.itselfType() : readType(c, t, reader);
+								dt.name = reader.readJavaName();
 
 								if (reader.skipWhitespace().read(CharTest.FUNC_OPEN).equals("(")) {
 									DocMethod method = new DocMethod();
@@ -221,6 +237,7 @@ public class WikiGenerator {
 									method.modFinal = modFinal;
 									method.modDeprecated = modDeprecated;
 									method.modOptional = modOptional;
+									method.modItself = modItself;
 
 									if (!reader.skipWhitespace().read(CharTest.FUNC_CLOSE).equals(")")) {
 										do {
@@ -230,17 +247,17 @@ public class WikiGenerator {
 
 											if (t.equals("nullable")) {
 												pNullable = true;
-												t = reader.read();
+												t = reader.readJavaName();
 											}
 
 											if (t.equals("optional")) {
 												pOptional = true;
-												t = reader.read();
+												t = reader.readJavaName();
 											}
 
 											DocParam p = new DocParam();
 											p.type = readType(c, pt, reader);
-											p.type.name = reader.read();
+											p.type.name = reader.readJavaName();
 											p.modNullable = pNullable;
 											p.modOptional = pOptional;
 											method.params.add(p);
@@ -258,13 +275,11 @@ public class WikiGenerator {
 									field.modDeprecated = modDeprecated;
 									c.fields.add(field);
 								}
-
-								System.out.println(dt);
 							}
 						}
 					}
 				} catch (Exception ex) {
-					throw new RuntimeException("Failed to handle line #" + (line + 1) + " '" + c.lines.get(line) + "' of " + c.path, ex);
+					throw new DocException("Failed to handle line #" + (line + 1) + " '" + c.lines.get(line) + "' of " + c.path, ex);
 				}
 			}
 		}
@@ -307,7 +322,7 @@ public class WikiGenerator {
 		}
 
 		if (connection.getResponseCode() / 100 != 2) {
-			throw new RuntimeException("Failed to connect! Error code " + connection.getResponseCode());
+			throw new DocException("Failed to connect! Error code " + connection.getResponseCode());
 		}
 
 		connection.disconnect();
@@ -315,9 +330,17 @@ public class WikiGenerator {
 
 	private DocType readType(DocClass context, String type, LineReader reader) {
 		reader.skipWhitespace();
+
+		if (type.equals("itself")) {
+			return context.itselfType();
+		}
+
 		DocType t = new DocType();
 
-		if (context.generics.contains(type)) {
+		if (type.startsWith("$_")) {
+			t.typeClass = new DocClass();
+			t.typeClass.path = type.substring(2);
+		} else if (context.generics.contains(type)) {
 			t.typeClass = new DocClass();
 			t.typeClass.path = type;
 		} else {

@@ -1,4 +1,6 @@
+primitive
 typescript any
+displayName any
 
 int hashCode()
 

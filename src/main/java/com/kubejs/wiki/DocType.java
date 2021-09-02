@@ -19,7 +19,7 @@ public class DocType {
 
 	public JsonElement toJson() {
 		if (name.isEmpty() && generics.isEmpty()) {
-			if (typeClass.id == 0L) {
+			if (typeClass.id == 0) {
 				return new JsonString(typeClass.path);
 			} else {
 				return new JsonNumber(typeClass.id);
@@ -28,7 +28,7 @@ public class DocType {
 
 		JsonObject o = new JsonObject();
 
-		if (typeClass.id == 0L) {
+		if (typeClass.id == 0) {
 			o.add("class", typeClass.path);
 		} else {
 			o.add("class", typeClass.id);

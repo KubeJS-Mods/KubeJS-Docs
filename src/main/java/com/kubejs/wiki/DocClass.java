@@ -13,24 +13,31 @@ import java.util.List;
 public class DocClass extends TypedDocumentedObject {
 	public Path file;
 	public DocNamespace namespace;
-	public long id = 0L;
+	public int id = 0;
 	public List<String> lines;
+	public String unique = "";
 	public String path = "";
-	public String name = "";
-	public String classtype = "class";
+	public String classType = "class";
 	public String typescript = "";
-	public DocType extendsClass;
+	public String displayName = "";
+	public DocType extendsType;
 	public List<String> generics = new ArrayList<>(0);
-	public List<DocType> implementsClass = new ArrayList<>(0);
+	public List<DocType> implementsTypes = new ArrayList<>(0);
 	public List<DocField> fields = new ArrayList<>(0);
 	public List<DocMethod> methods = new ArrayList<>(5);
 	public List<String> events = new ArrayList<>(0);
+	public List<String> recipes = new ArrayList<>(0);
 	public Boolean canCancel = null;
 	public List<DocExample> examples = new ArrayList<>(0);
 	public String binding = "";
 
+	@Override
+	public String toString() {
+		return namespace.namespace + ":" + path;
+	}
+
 	public String getPathName() {
-		int i = path.lastIndexOf('/');
+		int i = path.lastIndexOf('.');
 		return i == -1 ? path : path.substring(i + 1);
 	}
 
@@ -40,17 +47,18 @@ public class DocClass extends TypedDocumentedObject {
 
 		o.add("id", id);
 		o.add("path", path);
+		o.add("unique", unique);
 
-		if (!name.isEmpty()) {
-			o.add("name", name);
-		}
-
-		if (!classtype.equals("class")) {
-			o.add("classtype", classtype);
+		if (!classType.equals("class")) {
+			o.add("classType", classType);
 		}
 
 		if (!typescript.isEmpty()) {
 			o.add("typescript", typescript);
+		}
+
+		if (!displayName.isEmpty()) {
+			o.add("displayName", displayName);
 		}
 
 		if (!events.isEmpty()) {
@@ -61,6 +69,16 @@ public class DocClass extends TypedDocumentedObject {
 			}
 
 			o.add("events", a);
+		}
+
+		if (!recipes.isEmpty()) {
+			JsonArray a = new JsonArray();
+
+			for (String s : recipes) {
+				a.add(s);
+			}
+
+			o.add("recipes", a);
 		}
 
 		if (canCancel != null) {
@@ -81,8 +99,8 @@ public class DocClass extends TypedDocumentedObject {
 			o.add("binding", binding);
 		}
 
-		if (extendsClass != null) {
-			o.add("extends", extendsClass.toJson());
+		if (extendsType != null) {
+			o.add("extends", extendsType.toJson());
 		}
 
 		if (!generics.isEmpty()) {
@@ -95,10 +113,10 @@ public class DocClass extends TypedDocumentedObject {
 			o.add("generics", a);
 		}
 
-		if (!implementsClass.isEmpty()) {
+		if (!implementsTypes.isEmpty()) {
 			JsonArray a = new JsonArray();
 
-			for (DocType c : implementsClass) {
+			for (DocType c : implementsTypes) {
 				a.add(c.toJson());
 			}
 
@@ -126,5 +144,19 @@ public class DocClass extends TypedDocumentedObject {
 		}
 
 		return o;
+	}
+
+	public DocType itselfType() {
+		DocType type = new DocType();
+		type.typeClass = this;
+
+		for (String s : generics) {
+			DocType g = new DocType();
+			g.typeClass = new DocClass();
+			g.typeClass.path = s;
+			type.generics.add(g);
+		}
+
+		return type;
 	}
 }

@@ -1,3 +1,5 @@
+primitive
 extends Number
 typescript number
 alias float
+displayName float

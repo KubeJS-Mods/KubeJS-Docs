@@ -1,3 +1,5 @@
+primitive
+
 final int lastIndex
 
 final boolean ignoreCase
@@ -6,6 +8,6 @@ final boolean multiline
 
 final String source
 
-RegExp compile()
+itself compile()
 
 boolean test(String string)

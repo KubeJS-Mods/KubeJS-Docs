@@ -1,4 +1,4 @@
-type interface
+interface
 generic T
 generic S extends BaseStream<T, S>
 extends AutoCloseable

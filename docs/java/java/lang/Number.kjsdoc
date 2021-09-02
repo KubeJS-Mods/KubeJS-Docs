@@ -1,25 +1,25 @@
-type primitive
-extends Primitive
+primitive
 typescript number
 alias number
+displayName number
 
-byte byteValue()
-# Convert to byte
-
-short shortValue()
-# Convert to short
-
-int intValue()
-# Convert to int
-
-long longValue()
-# Convert to long
-
-float floatValue()
-# Convert to float
-
-double doubleValue()
-# Convert to double
+// byte byteValue()
+// # Convert to byte
+//
+// short shortValue()
+// # Convert to short
+//
+// int intValue()
+// # Convert to int
+//
+// long longValue()
+// # Convert to long
+//
+// float floatValue()
+// # Convert to float
+//
+// double doubleValue()
+// # Convert to double
 
 String toString()
 

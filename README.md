@@ -10,14 +10,18 @@
 ### Class syntax
 
 - \# Class info
-- displayname DisplayName
+- displayName DisplayName
 - extends ClassName (defaults to Object)
 - implements ClassName (one line for each interface)
 - typescript `void`|`number`|`string`|`boolean`|CustomTSClassName (defaults to itself)
-- type `class`|`primitive`|`interface`|`enum`|`annotation` (defaults to `class`)
+- primitive
+- interface
+- enum
+- annotation
 - alias DifferentClassName
 - generic E (define generic type, used for classes like List<E>, one line for each generic)
 - event eventname (only for event classes, one line for each event)
+- recipe namespace:recipe_id (for classes that are a recipe type wrapper, one line for each type)
 - canCancel `true`|`false` (only for event classes, defaults to `false`)
 - binding JSClassName (used for global bindings such as UUIDWrapper as UUID)
 
@@ -46,6 +50,7 @@ Chained before type, seperated by space, e.g. `static final int NAME`
 | `final` | Yes | Yes | No | Member is immutable, trying to set it will most likely crash |
 | `optional` | No | Yes | Yes | The param doesn't have to exist. In methods its used to indicate default methods in interface |
 | `deprecated` | Yes | Yes | No | It's no longer recommended to use this member |
+| `itself` | No | Yes | Yes | Indicates that this method returns its own type and is either a builder or a modified copy. You dont specify type with this modifier |
 
 ### Other
 
@@ -55,6 +60,7 @@ Chained before type, seperated by space, e.g. `static final int NAME`
 - "Bean" methods a.k.a. `x getSomething()`, `isSomething()` and `setSomething(x)` should be documented as regular methods. The parser will figure out that they are beans
 - You can use // comments to write text that will be ignored by compiler
 - You can reference example code with `@@exampleId` in comments
+- You can use $_ prefix for undocumented class types, e.g. $_SomeRandomClassName
 
 You can create an example and give it ID like this:
 
@@ -85,3 +91,10 @@ DamageSourceJS getSource()
 ### Testing
 
 You can test if docs build properly if you have JDK 16 and you run `./gradlew run`
+
+### Generated Data
+
+- [Docs](https://wiki.kubejs.com)
+- [Version](https://wiki.kubejs.com/version.txt)
+- [Main data file](https://wiki.kubejs.com/data.json)
+- [Typings](https://wiki.kubejs.com/index.d.ts)

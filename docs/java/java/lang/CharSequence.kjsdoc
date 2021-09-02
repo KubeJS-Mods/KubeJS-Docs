@@ -1,11 +1,11 @@
-type interface
+interface
 typescript string
 
 int length()
 
 char charAt(int index)
 
-CharSequence subSequence(int start, int end)
+itself subSequence(int start, int end)
 
 String toString()
 

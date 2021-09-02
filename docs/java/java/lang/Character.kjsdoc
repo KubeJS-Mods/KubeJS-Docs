@@ -1,3 +1,4 @@
-type primitive
+primitive
 typescript string
 alias char
+displayName char

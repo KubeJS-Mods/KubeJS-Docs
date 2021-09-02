@@ -12,6 +12,8 @@ public interface CharTest {
 	CharTest DOLLAR = new SingleCharTest('$');
 	CharTest FUNC_OPEN = new SingleCharTest('(');
 	CharTest FUNC_CLOSE = new SingleCharTest(')');
+	CharTest SLASH = new SingleCharTest('/');
+	CharTest COLON = new SingleCharTest(':');
 
 	CharTest AZ_L = new RangeCharTest('a', 'z');
 	CharTest AZ_U = new RangeCharTest('A', 'Z');
@@ -20,6 +22,7 @@ public interface CharTest {
 	CharTest W = new OrCharTest(AZ, new OrCharTest(DIGIT, UNDERSCORE));
 	CharTest JAVA_W = new OrCharTest(W, new OrCharTest(DOLLAR, PERIOD));
 	CharTest EVENT_ID = new OrCharTest(JAVA_W, new OrCharTest(DIAMOND_OPEN, DIAMOND_CLOSE));
+	CharTest RESOURCE_LOCATION = new OrCharTest(W, new OrCharTest(SLASH, COLON));
 	CharTest WHITESPACE = new RangeCharTest((char) 0, ' ');
 	CharTest DIAMOND_CLOSE_OR_COMMA = new OrCharTest(DIAMOND_CLOSE, COMMA);
 	CharTest FUNC_CLOSE_OR_COMMA = new OrCharTest(FUNC_CLOSE, COMMA);

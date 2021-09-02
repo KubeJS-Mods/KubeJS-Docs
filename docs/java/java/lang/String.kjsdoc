@@ -1,14 +1,18 @@
+primitive
 implements CharSequence
 typescript string
 alias string
+displayName string
 
 final int length
+# The amount of characters in this string
 
 char charAt(int index)
+# Single character at index
 
 int charCodeAt(int index)
 
-String concat(Array<String> strings)
+itself concat(Array<String> strings)
 
 int indexOf(String searchString)
 
@@ -22,32 +26,32 @@ int localeCompare(String that)
 
 // nullable RegExpMatchArray match(RegExp pattern)
 
-String replace(RegExp searchValue, String replaceValue)
+itself replace(RegExp searchValue, String replaceValue)
 
 // String replace(RegExp searchValue, replacer: (String substring, Array<any> args) => String)
 
 int search(RegExp pattern)
 
-String slice()
+itself slice()
 
-String slice(int start)
+itself slice(int start)
 
-String slice(int start, int end)
+itself slice(int start, int end)
 
 Array<String> split(RegExp separator)
 
 Array<String> split(RegExp separator, int limit)
 
-String substring(int start)
+itself substring(int start)
 
-String substring(int start, int end)
+itself substring(int start, int end)
 
-String toLowerCase()
+itself toLowerCase()
 
-String toUpperCase()
+itself toUpperCase()
 
-String trim()
+itself trim()
 
-String substr(int from)
+itself substr(int from)
 
-String substr(int from, int length)
+itself substr(int from, int length)

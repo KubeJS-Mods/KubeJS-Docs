@@ -1,6 +1,6 @@
-type interface
+interface
 generic T
 
 void accept(T t)
 
-optional Consumer<T> andThen(Consumer<T> after)
+optional itself andThen(Consumer<T> after)

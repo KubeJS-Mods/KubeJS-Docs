@@ -1,3 +1,4 @@
-type primitive
+primitive
 typescript boolean
 alias boolean
+displayName boolean

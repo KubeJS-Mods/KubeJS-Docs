@@ -13,6 +13,7 @@ public class DocMethod extends TypedDocumentedObject {
 	public boolean modFinal = false;
 	public boolean modDeprecated = false;
 	public boolean modOptional = false;
+	public boolean modItself = false;
 	public List<String> throwsTypes = new ArrayList<>(0);
 
 	@Override
@@ -37,6 +38,10 @@ public class DocMethod extends TypedDocumentedObject {
 
 		if (modOptional) {
 			o.add("optional", true);
+		}
+
+		if (modItself) {
+			o.add("itself", true);
 		}
 
 		if (!throwsTypes.isEmpty()) {

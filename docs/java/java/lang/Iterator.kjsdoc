@@ -1,3 +1,4 @@
+interface
 generic E
 
 boolean hasNext()
