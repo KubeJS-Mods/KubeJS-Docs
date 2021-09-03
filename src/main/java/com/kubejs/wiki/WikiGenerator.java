@@ -84,8 +84,8 @@ public class WikiGenerator {
 					c.namespace = namespace;
 					c.file = p.normalize().toAbsolutePath();
 					String pathString0 = c.file.toString().replace('\\', '/').replace(docsString, "");
-					c.path = pathString0.substring(1, pathString0.length() - 7).replace('/', '.');
-					System.out.println("- " + c.path);
+					c.name = pathString0.substring(1, pathString0.length() - 7).replace('/', '.');
+					System.out.println("- " + c.name);
 					namespace.classes.add(c);
 					classes.add(c);
 					c.id = classes.size();
@@ -107,7 +107,7 @@ public class WikiGenerator {
 					}
 
 					addLookup(c.getPathName(), c);
-					addLookup(c.path, c);
+					addLookup(c.name, c);
 					uniqueNames.computeIfAbsent(c.getPathName(), s -> new ArrayList<>()).add(c);
 				});
 			} catch (IOException e) {
@@ -122,10 +122,12 @@ public class WikiGenerator {
 				entry.getValue().iterator().next().unique = entry.getKey();
 			} else {
 				for (DocClass c : entry.getValue()) {
-					c.unique = c.path;
+					c.unique = c.name;
 				}
 			}
 		}
+
+		DocType booleanType = classes.stream().filter(c -> c.name.equals("java.lang.Boolean")).findFirst().map(DocClass::itselfType).orElse(null);
 
 		for (DocClass c : classes) {
 			TypedDocumentedObject lastObject = c;
@@ -226,10 +228,11 @@ public class WikiGenerator {
 								}
 
 								DocType dt = modItself ? c.itselfType() : readType(c, t, reader);
-								dt.name = reader.readJavaName();
+								String name = reader.readJavaName();
 
 								if (reader.skipWhitespace().read(CharTest.FUNC_OPEN).equals("(")) {
 									DocMethod method = new DocMethod();
+									method.name = name;
 									method.type = dt;
 									lastObject = method;
 									method.modNullable = modNullable;
@@ -245,28 +248,64 @@ public class WikiGenerator {
 											boolean pNullable = false;
 											boolean pOptional = false;
 
-											if (t.equals("nullable")) {
+											if (pt.equals("nullable")) {
 												pNullable = true;
-												t = reader.readJavaName();
+												pt = reader.readJavaName();
 											}
 
-											if (t.equals("optional")) {
+											if (pt.equals("optional")) {
 												pOptional = true;
-												t = reader.readJavaName();
+												pt = reader.readJavaName();
 											}
 
 											DocParam p = new DocParam();
 											p.type = readType(c, pt, reader);
-											p.type.name = reader.readJavaName();
+											p.name = reader.readJavaName();
 											p.modNullable = pNullable;
 											p.modOptional = pOptional;
 											method.params.add(p);
 										} while (!reader.isEOL() && !reader.skipWhitespace().read(CharTest.FUNC_CLOSE_OR_COMMA).equals(")"));
 									}
 
+									if (method.name.length() >= 3 && CharTest.AZ_U.test(method.name.charAt(2)) && method.name.startsWith("is") && method.type.is(booleanType)) {
+										DocBean bean = c.bean(2, method.name);
+
+										if (bean.type != null && !bean.type.is(method.type)) {
+											bean.hasConflicts = true;
+										} else {
+											bean.type = method.type;
+										}
+
+										bean.hasGetter = true;
+										method.bean = bean;
+									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("get")) {
+										DocBean bean = c.bean(3, method.name);
+
+										if (bean.type != null && !bean.type.is(method.type)) {
+											bean.hasConflicts = true;
+										} else {
+											bean.type = method.type;
+										}
+
+										bean.hasGetter = true;
+										method.bean = bean;
+									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("set")) {
+										DocBean bean = c.bean(3, method.name);
+
+										if (bean.type != null && !bean.type.is(method.type)) {
+											bean.hasConflicts = true;
+										} else {
+											bean.type = method.type;
+										}
+
+										bean.hasSetter = true;
+										method.bean = bean;
+									}
+
 									c.methods.add(method);
 								} else {
 									DocField field = new DocField();
+									field.name = name;
 									field.type = dt;
 									lastObject = field;
 									field.modNullable = modNullable;
@@ -279,7 +318,32 @@ public class WikiGenerator {
 						}
 					}
 				} catch (Exception ex) {
-					throw new DocException("Failed to handle line #" + (line + 1) + " '" + c.lines.get(line) + "' of " + c.path, ex);
+					throw new DocException("Failed to handle line #" + (line + 1) + " '" + c.lines.get(line) + "' of " + c.name, ex);
+				}
+			}
+		}
+
+		for (DocClass c : classes) {
+			c.methods.removeIf(m -> m.bean != null && !m.bean.hasConflicts);
+
+			for (DocBean bean : c.beans.values()) {
+				if (!bean.hasConflicts) {
+					DocField field = new DocField();
+					field.name = bean.name;
+
+					if (!bean.hasGetter) {
+						field.modSetter = true;
+					} else if (!bean.hasSetter) {
+						field.modFinal = true;
+					}
+
+					if (bean.modDeprecated) {
+						field.modDeprecated = true;
+					}
+
+					field.modBean = true;
+					field.type = bean.type;
+					c.fields.add(field);
 				}
 			}
 		}
@@ -339,10 +403,10 @@ public class WikiGenerator {
 
 		if (type.startsWith("$_")) {
 			t.typeClass = new DocClass();
-			t.typeClass.path = type.substring(2);
+			t.typeClass.name = type.substring(2);
 		} else if (context.generics.contains(type)) {
 			t.typeClass = new DocClass();
-			t.typeClass.path = type;
+			t.typeClass.name = type;
 		} else {
 			t.typeClass = requireClass(type);
 

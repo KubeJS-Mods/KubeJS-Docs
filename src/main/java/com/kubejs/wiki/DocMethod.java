@@ -15,6 +15,7 @@ public class DocMethod extends TypedDocumentedObject {
 	public boolean modOptional = false;
 	public boolean modItself = false;
 	public List<String> throwsTypes = new ArrayList<>(0);
+	public DocBean bean = null;
 
 	@Override
 	public JsonObject toJson() {

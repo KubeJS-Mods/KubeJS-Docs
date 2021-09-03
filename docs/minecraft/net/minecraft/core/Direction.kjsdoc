@@ -1,0 +1,28 @@
+enum
+
+static final Direction DOWN
+static final Direction UP
+static final Direction NORTH
+static final Direction SOUTH
+static final Direction WEST
+static final Direction EAST
+
+int getX()
+
+int getY()
+
+int getZ()
+
+itself getOpposite()
+
+int getIndex()
+
+int getHorizontalIndex()
+
+float getYaw()
+
+float getPitch()
+
+itself getClockWise()
+
+itself getCounterClockWise()

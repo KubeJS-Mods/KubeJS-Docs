@@ -5,7 +5,9 @@ import com.kubejs.wiki.json.JsonObject;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author LatvianModder
@@ -16,7 +18,6 @@ public class DocClass extends TypedDocumentedObject {
 	public int id = 0;
 	public List<String> lines;
 	public String unique = "";
-	public String path = "";
 	public String classType = "class";
 	public String typescript = "";
 	public String displayName = "";
@@ -30,15 +31,32 @@ public class DocClass extends TypedDocumentedObject {
 	public Boolean canCancel = null;
 	public List<DocExample> examples = new ArrayList<>(0);
 	public String binding = "";
+	public Map<String, DocBean> beans = new LinkedHashMap<>(0);
 
 	@Override
 	public String toString() {
-		return namespace.namespace + ":" + path;
+		return namespace.namespace + ":" + name;
 	}
 
 	public String getPathName() {
-		int i = path.lastIndexOf('.');
-		return i == -1 ? path : path.substring(i + 1);
+		int i = name.lastIndexOf('.');
+		return i == -1 ? name : name.substring(i + 1);
+	}
+
+	public boolean is(DocClass c) {
+		return id == c.id && (id != 0 || name.equals(c.name));
+	}
+
+	public DocBean bean(String name) {
+		return beans.computeIfAbsent(name, DocBean::new);
+	}
+
+	public DocBean bean(int index, String name) {
+		if (index == name.length() - 1) {
+			return bean(String.valueOf(Character.toLowerCase(name.charAt(index))));
+		}
+
+		return bean(Character.toLowerCase(name.charAt(index)) + name.substring(index + 1));
 	}
 
 	@Override
@@ -46,7 +64,6 @@ public class DocClass extends TypedDocumentedObject {
 		JsonObject o = super.toJson();
 
 		o.add("id", id);
-		o.add("path", path);
 		o.add("unique", unique);
 
 		if (!classType.equals("class")) {
@@ -153,7 +170,7 @@ public class DocClass extends TypedDocumentedObject {
 		for (String s : generics) {
 			DocType g = new DocType();
 			g.typeClass = new DocClass();
-			g.typeClass.path = s;
+			g.typeClass.name = s;
 			type.generics.add(g);
 		}
 

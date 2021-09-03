@@ -1,0 +1,79 @@
+WorldJS getWorld()
+
+BlockPos getPos()
+
+String getDimension()
+
+int getX()
+
+int getY()
+
+int getZ()
+
+itself offset(Direction direction, int blocks)
+
+itself offset(Direction direction)
+
+itself offset(int x, int y, int z)
+
+itself getDown()
+
+itself getUp()
+
+itself getNorth()
+
+itself getSouth()
+
+itself getWest()
+
+itself getEast()
+
+BlockState getBlockState()
+
+void setBlockState(BlockState state, int flags)
+
+String getId()
+
+Collection<ResourceLocation> getTags()
+
+boolean hasTag(ResourceLocation tag)
+
+void set(ResourceLocation id, Map<String, String> properties, int flags)
+
+void set(ResourceLocation id, Map<String, String> properties)
+
+void set(ResourceLocation id)
+
+Map<String, String> getProperties()
+
+$_BlockEntity getEntity()
+
+String getEntityId()
+
+Map<String, Object> getEntityData()
+
+int getLight()
+
+boolean getCanSeeSky()
+
+$_ExplosionJS createExplosion()
+
+$_EntityJS createEntity(ResourceLocation id)
+
+void spawnLightning(boolean effectOnly, nullable $_EntityJS player)
+
+void spawnLightning(boolean effectOnly)
+
+void spawnFireworks($_FireworksJS fireworks)
+
+nullable $_InventoryJS getInventory(Direction direction)
+
+$_MaterialJS getMaterial()
+
+$_ItemStackJS getItem()
+
+$_EntityArrayList getPlayersInRadius(double radius)
+
+$_EntityArrayList getPlayersInRadius()
+
+String getBiomeId()

@@ -1,0 +1,5 @@
+interface
+generic K
+generic V
+
+// TODO

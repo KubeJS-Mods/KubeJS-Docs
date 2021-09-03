@@ -7,11 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TypedDocumentedObject {
+	public String name = "";
 	public DocType type;
 	public List<String> info = new ArrayList<>(0);
 
 	public JsonObject toJson() {
 		JsonObject o = new JsonObject();
+
+		if (!name.isEmpty()) {
+			o.add("name", name);
+		}
 
 		if (type != null) {
 			o.add("type", type.toJson());

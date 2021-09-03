@@ -1,0 +1,8 @@
+interface
+generic E
+
+int size()
+
+Iterator<E> iterator()
+
+void forEach(Consumer<E> consumer)

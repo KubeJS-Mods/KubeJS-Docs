@@ -6,7 +6,9 @@ public class DocField extends TypedDocumentedObject {
 	public boolean modNullable = false;
 	public boolean modStatic = false;
 	public boolean modFinal = false;
+	public boolean modSetter = false;
 	public boolean modDeprecated = false;
+	public boolean modBean = false;
 
 	@Override
 	public JsonObject toJson() {
@@ -24,8 +26,16 @@ public class DocField extends TypedDocumentedObject {
 			o.add("final", true);
 		}
 
+		if (modSetter) {
+			o.add("setter", true);
+		}
+
 		if (modDeprecated) {
 			o.add("deprecated", true);
+		}
+
+		if (modBean) {
+			o.add("bean", true);
 		}
 
 		return o;

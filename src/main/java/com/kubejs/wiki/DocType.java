@@ -13,14 +13,13 @@ import java.util.List;
  * @author LatvianModder
  */
 public class DocType {
-	public String name = "";
 	public DocClass typeClass;
 	public List<DocType> generics = new ArrayList<>(0);
 
 	public JsonElement toJson() {
-		if (name.isEmpty() && generics.isEmpty()) {
+		if (generics.isEmpty()) {
 			if (typeClass.id == 0) {
-				return new JsonString(typeClass.path);
+				return new JsonString(typeClass.name);
 			} else {
 				return new JsonNumber(typeClass.id);
 			}
@@ -29,13 +28,9 @@ public class DocType {
 		JsonObject o = new JsonObject();
 
 		if (typeClass.id == 0) {
-			o.add("class", typeClass.path);
+			o.add("class", typeClass.name);
 		} else {
 			o.add("class", typeClass.id);
-		}
-
-		if (!name.isEmpty()) {
-			o.add("name", name);
 		}
 
 		if (!generics.isEmpty()) {
@@ -58,13 +53,12 @@ public class DocType {
 		return sb.toString();
 	}
 
-	public void append(StringBuilder sb) {
-		if (!name.isEmpty()) {
-			sb.append(name);
-			sb.append(' ');
-		}
+	public boolean is(DocType type) {
+		return type == this || typeClass.is(type.typeClass) && generics.size() == type.generics.size() && generics.equals(type.generics);
+	}
 
-		sb.append(typeClass.path);
+	public void append(StringBuilder sb) {
+		sb.append(typeClass.name);
 
 		if (!generics.isEmpty()) {
 			sb.append('<');
