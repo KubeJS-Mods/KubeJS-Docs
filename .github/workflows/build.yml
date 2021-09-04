@@ -29,8 +29,12 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '16'
+      - name: List files
+        run: |
+          ls -la
+          echo $PWD
       - name: Set up Gradle
-        run: chmod +x gradlew
+        run: chmod +x ./gradlew
       - name: Generate Docs
         env:
           KUBEJS_DOCS_TOKEN: ${{ secrets.KUBEJS_DOCS_TOKEN }}
