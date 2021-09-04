@@ -1,0 +1,3 @@
+generic T
+
+int compareTo(T other)

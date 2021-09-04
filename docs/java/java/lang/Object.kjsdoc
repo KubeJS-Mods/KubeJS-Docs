@@ -8,15 +8,15 @@ String toString()
 
 boolean equals(Object other)
 
-optional void notify()
+default void notify()
 
-optional void notifyAll()
+default void notifyAll()
 
-optional void wait(long timeout)
+default void wait(long timeout)
 throws InterruptedException
 
-optional void wait(long timeout, int nanos)
+default void wait(long timeout, int nanos)
 throws InterruptedException
 
-optional void wait()
+default void wait()
 throws InterruptedException

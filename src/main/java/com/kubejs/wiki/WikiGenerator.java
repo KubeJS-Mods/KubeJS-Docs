@@ -88,7 +88,6 @@ public class WikiGenerator {
 					System.out.println("- " + c.name);
 					namespace.classes.add(c);
 					classes.add(c);
-					c.id = classes.size();
 
 					try {
 						c.lines = Files.readAllLines(c.file);
@@ -187,7 +186,7 @@ public class WikiGenerator {
 								boolean modStatic = false;
 								boolean modFinal = false;
 								boolean modDeprecated = false;
-								boolean modOptional = false;
+								boolean modDefault = false;
 								boolean modItself = false;
 
 								if (t.equals("nullable")) {
@@ -210,12 +209,12 @@ public class WikiGenerator {
 									t = reader.readJavaName();
 								}
 
-								if (t.equals("optional")) {
+								if (t.equals("default")) {
 									if (modFinal) {
-										throw new DocException("Can't mix 'optional' and 'final'!");
+										throw new DocException("Can't mix 'default' and 'final'!");
 									}
 
-									modOptional = true;
+									modDefault = true;
 									t = reader.readJavaName();
 								}
 
@@ -239,22 +238,22 @@ public class WikiGenerator {
 									method.modStatic = modStatic;
 									method.modFinal = modFinal;
 									method.modDeprecated = modDeprecated;
-									method.modOptional = modOptional;
+									method.modDefault = modDefault;
 									method.modItself = modItself;
 
 									if (!reader.skipWhitespace().read(CharTest.FUNC_CLOSE).equals(")")) {
 										do {
 											String pt = reader.readJavaName();
 											boolean pNullable = false;
-											boolean pOptional = false;
+											boolean pDefault = false;
 
 											if (pt.equals("nullable")) {
 												pNullable = true;
 												pt = reader.readJavaName();
 											}
 
-											if (pt.equals("optional")) {
-												pOptional = true;
+											if (pt.equals("default")) {
+												pDefault = true;
 												pt = reader.readJavaName();
 											}
 
@@ -262,12 +261,12 @@ public class WikiGenerator {
 											p.type = readType(c, pt, reader);
 											p.name = reader.readJavaName();
 											p.modNullable = pNullable;
-											p.modOptional = pOptional;
+											p.modDefault = pDefault;
 											method.params.add(p);
 										} while (!reader.isEOL() && !reader.skipWhitespace().read(CharTest.FUNC_CLOSE_OR_COMMA).equals(")"));
 									}
 
-									if (method.name.length() >= 3 && CharTest.AZ_U.test(method.name.charAt(2)) && method.name.startsWith("is") && method.type.is(booleanType)) {
+									if (method.name.length() >= 3 && CharTest.AZ_U.test(method.name.charAt(2)) && method.name.startsWith("is") && method.params.size() == 0 && method.type.is(booleanType)) {
 										DocBean bean = c.bean(2, method.name);
 
 										if (bean.type != null && !bean.type.is(method.type)) {
@@ -278,7 +277,7 @@ public class WikiGenerator {
 
 										bean.hasGetter = true;
 										method.bean = bean;
-									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("get")) {
+									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("get") && method.params.size() == 0) {
 										DocBean bean = c.bean(3, method.name);
 
 										if (bean.type != null && !bean.type.is(method.type)) {
@@ -289,13 +288,13 @@ public class WikiGenerator {
 
 										bean.hasGetter = true;
 										method.bean = bean;
-									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("set")) {
+									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("set") && method.params.size() == 1) {
 										DocBean bean = c.bean(3, method.name);
 
-										if (bean.type != null && !bean.type.is(method.type)) {
+										if (bean.type != null && !bean.type.is(method.params.get(0).type)) {
 											bean.hasConflicts = true;
 										} else {
-											bean.type = method.type;
+											bean.type = method.params.get(0).type;
 										}
 
 										bean.hasSetter = true;
@@ -399,16 +398,16 @@ public class WikiGenerator {
 			return context.itselfType();
 		}
 
-		DocType t = new DocType();
+		DocType t;
 
 		if (type.startsWith("$_")) {
-			t.typeClass = new DocClass();
-			t.typeClass.name = type.substring(2);
+			throw new DocException("Class can't start with $_!");
 		} else if (context.generics.contains(type)) {
-			t.typeClass = new DocClass();
-			t.typeClass.name = type;
+			t = DocType.generic(type);
+		} else if (!classLookup.containsKey(type)) {
+			t = DocType.undocumented(type);
 		} else {
-			t.typeClass = requireClass(type);
+			t = DocType.ofClass(requireClass(type), false);
 
 			if (reader.read(CharTest.DIAMOND_OPEN).equals("<")) {
 				t.generics.add(readType(context, reader));

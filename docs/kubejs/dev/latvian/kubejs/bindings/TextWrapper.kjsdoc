@@ -1,0 +1,43 @@
+binding Text
+
+static Text of(nullable Object text)
+
+static Text join(Text separator, Array<Text> texts)
+
+static Text string(Object text)
+
+static Text translate(String key)
+
+static Text translate(String key, Array<Object> objects)
+
+static Text black(Object text)
+
+static Text darkBlue(Object text)
+
+static Text darkGreen(Object text)
+
+static Text darkAqua(Object text)
+
+static Text darkRed(Object text)
+
+static Text darkPurple(Object text)
+
+static Text gold(Object text)
+
+static Text gray(Object text)
+
+static Text darkGray(Object text)
+
+static Text blue(Object text)
+
+static Text green(Object text)
+
+static Text aqua(Object text)
+
+static Text red(Object text)
+
+static Text lightPurple(Object text)
+
+static Text yellow(Object text)
+
+static Text white(Object text)

@@ -1,0 +1,13 @@
+interface
+
+Text getName();
+
+default Text getDisplayName()
+
+void tell(Text message)
+
+default void setStatusMessage(Text message)
+
+int runCommand(String command)
+
+default int runCommandSilent(String command)

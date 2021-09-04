@@ -1,0 +1,13 @@
+interface
+
+int getArgbKJS()
+
+default int getRgbKJS()
+
+default int getFireworkColorKJS()
+
+default String getHexKJS()
+
+default String getSerializeKJS()
+
+default TextColor createTextColorKJS()

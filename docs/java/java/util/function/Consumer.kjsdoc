@@ -3,4 +3,4 @@ generic T
 
 void accept(T t)
 
-optional itself andThen(Consumer<T> after)
+default itself andThen(Consumer<T> after)

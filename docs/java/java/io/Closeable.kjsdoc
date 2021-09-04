@@ -1,5 +1,2 @@
 interface
 extends AutoCloseable
-
-void close()
-throws IOException

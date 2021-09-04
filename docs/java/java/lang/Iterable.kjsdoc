@@ -1,0 +1,4 @@
+interface
+generic E
+
+Iterator<E> iterator()

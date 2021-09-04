@@ -12,7 +12,7 @@ public class DocMethod extends TypedDocumentedObject {
 	public boolean modStatic = false;
 	public boolean modFinal = false;
 	public boolean modDeprecated = false;
-	public boolean modOptional = false;
+	public boolean modDefault = false;
 	public boolean modItself = false;
 	public List<String> throwsTypes = new ArrayList<>(0);
 	public DocBean bean = null;
@@ -29,17 +29,17 @@ public class DocMethod extends TypedDocumentedObject {
 			o.add("static", true);
 		}
 
-		if (modFinal) {
-			o.add("final", true);
-		}
+		//if (modFinal) {
+		//	o.add("final", true);
+		//}
 
 		if (modDeprecated) {
 			o.add("deprecated", true);
 		}
 
-		if (modOptional) {
-			o.add("optional", true);
-		}
+		//if (modDefault) {
+		//	o.add("default", true);
+		//}
 
 		if (modItself) {
 			o.add("itself", true);

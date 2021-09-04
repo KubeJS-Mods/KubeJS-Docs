@@ -6,7 +6,7 @@ public class DocParam {
 	public String name;
 	public DocType type;
 	public boolean modNullable = false;
-	public boolean modOptional = false;
+	public boolean modDefault = false;
 
 	public JsonObject toJson() {
 		JsonObject o = new JsonObject();
@@ -20,8 +20,8 @@ public class DocParam {
 			o.add("nullable", true);
 		}
 
-		if (modOptional) {
-			o.add("optional", true);
+		if (modDefault) {
+			o.add("default", true);
 		}
 
 		return o;

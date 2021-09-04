@@ -1,0 +1,86 @@
+implements Iterable<Text>
+implements Comparable<Text>
+
+// JsonElement toJson()
+
+Component component()
+
+String getString()
+
+itself copy()
+
+// JsonObject createStyleJson()
+
+boolean hasStyle()
+
+Style createStyle()
+
+final itself color(Color c)
+
+final itself black()
+
+final itself darkBlue()
+
+final itself darkGreen()
+
+final itself darkAqua()
+
+final itself darkRed()
+
+final itself darkPurple()
+
+final itself gold()
+
+final itself gray()
+
+final itself darkGray()
+
+final itself blue()
+
+final itself green()
+
+final itself aqua()
+
+final itself red()
+
+final itself lightPurple()
+
+final itself yellow()
+
+final itself white()
+
+final itself noColor()
+
+final itself bold(nullable Boolean value)
+
+final itself bold()
+
+final itself italic(nullable Boolean value)
+
+final itself italic()
+
+final itself underlined(nullable Boolean value)
+
+final itself underlined()
+
+final itself strikethrough(nullable Boolean value)
+
+final itself strikethrough()
+
+final itself obfuscated(nullable Boolean value)
+
+final itself obfuscated()
+
+final itself insertion(nullable String value)
+
+final itself font(nullable String value)
+
+final itself click(nullable String value)
+
+final itself hover(Object text)
+
+final itself append(Object sibling)
+
+final List<Text> getSiblings()
+
+final boolean hasSiblings()

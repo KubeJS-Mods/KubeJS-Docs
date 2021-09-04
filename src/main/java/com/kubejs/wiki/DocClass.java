@@ -15,7 +15,6 @@ import java.util.Map;
 public class DocClass extends TypedDocumentedObject {
 	public Path file;
 	public DocNamespace namespace;
-	public int id = 0;
 	public List<String> lines;
 	public String unique = "";
 	public String classType = "class";
@@ -44,7 +43,7 @@ public class DocClass extends TypedDocumentedObject {
 	}
 
 	public boolean is(DocClass c) {
-		return id == c.id && (id != 0 || name.equals(c.name));
+		return this == c || name.equals(c.name);
 	}
 
 	public DocBean bean(String name) {
@@ -63,7 +62,6 @@ public class DocClass extends TypedDocumentedObject {
 	public JsonObject toJson() {
 		JsonObject o = super.toJson();
 
-		o.add("id", id);
 		o.add("unique", unique);
 
 		if (!classType.equals("class")) {
@@ -164,16 +162,6 @@ public class DocClass extends TypedDocumentedObject {
 	}
 
 	public DocType itselfType() {
-		DocType type = new DocType();
-		type.typeClass = this;
-
-		for (String s : generics) {
-			DocType g = new DocType();
-			g.typeClass = new DocClass();
-			g.typeClass.name = s;
-			type.generics.add(g);
-		}
-
-		return type;
+		return DocType.ofClass(this, true);
 	}
 }
