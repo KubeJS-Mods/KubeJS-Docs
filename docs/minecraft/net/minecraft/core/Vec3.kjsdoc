@@ -1,5 +1,5 @@
-final int x
+final double x
 
-final int y
+final double y
 
-final int z
+final double z

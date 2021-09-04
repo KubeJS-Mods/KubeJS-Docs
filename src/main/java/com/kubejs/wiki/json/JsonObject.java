@@ -42,4 +42,8 @@ public class JsonObject extends JsonElement {
 	public void add(String key, String value) {
 		add(key, new JsonString(value));
 	}
+
+	public void remove(String key) {
+		map.remove(key);
+	}
 }

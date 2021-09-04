@@ -43,6 +43,7 @@ public class DocMethod extends TypedDocumentedObject {
 
 		if (modItself) {
 			o.add("itself", true);
+			o.remove("type");
 		}
 
 		if (!throwsTypes.isEmpty()) {

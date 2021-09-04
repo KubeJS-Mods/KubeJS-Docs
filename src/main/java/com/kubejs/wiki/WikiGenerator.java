@@ -236,7 +236,7 @@ public class WikiGenerator {
 									lastObject = method;
 									method.modNullable = modNullable;
 									method.modStatic = modStatic;
-									method.modFinal = modFinal;
+									method.modFinal = !modFinal;
 									method.modDeprecated = modDeprecated;
 									method.modDefault = modDefault;
 									method.modItself = modItself;
@@ -307,9 +307,9 @@ public class WikiGenerator {
 									field.name = name;
 									field.type = dt;
 									lastObject = field;
+									field.access = modFinal ? 0 : 1;
 									field.modNullable = modNullable;
 									field.modStatic = modStatic;
-									field.modFinal = modFinal;
 									field.modDeprecated = modDeprecated;
 									c.fields.add(field);
 								}
@@ -331,16 +331,17 @@ public class WikiGenerator {
 					field.name = bean.name;
 
 					if (!bean.hasGetter) {
-						field.modSetter = true;
-					} else if (!bean.hasSetter) {
-						field.modFinal = true;
+						field.access = 2;
+					} else if (bean.hasSetter) {
+						field.access = 1;
+					} else {
+						field.access = 0;
 					}
 
 					if (bean.modDeprecated) {
 						field.modDeprecated = true;
 					}
 
-					field.modBean = true;
 					field.type = bean.type;
 					c.fields.add(field);
 				}
