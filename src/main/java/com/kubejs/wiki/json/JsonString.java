@@ -2,7 +2,6 @@ package com.kubejs.wiki.json;
 
 public class JsonString extends JsonElement {
 	private static final String[] REPLACEMENT_CHARS;
-	private static final String[] HTML_SAFE_REPLACEMENT_CHARS;
 
 	static {
 		REPLACEMENT_CHARS = new String[128];
@@ -16,12 +15,11 @@ public class JsonString extends JsonElement {
 		REPLACEMENT_CHARS['\n'] = "\\n";
 		REPLACEMENT_CHARS['\r'] = "\\r";
 		REPLACEMENT_CHARS['\f'] = "\\f";
-		HTML_SAFE_REPLACEMENT_CHARS = REPLACEMENT_CHARS.clone();
-		HTML_SAFE_REPLACEMENT_CHARS['<'] = "\\u003c";
-		HTML_SAFE_REPLACEMENT_CHARS['>'] = "\\u003e";
-		HTML_SAFE_REPLACEMENT_CHARS['&'] = "\\u0026";
-		HTML_SAFE_REPLACEMENT_CHARS['='] = "\\u003d";
-		HTML_SAFE_REPLACEMENT_CHARS['\''] = "\\u0027";
+		REPLACEMENT_CHARS['<'] = "\\u003c";
+		REPLACEMENT_CHARS['>'] = "\\u003e";
+		REPLACEMENT_CHARS['&'] = "\\u0026";
+		REPLACEMENT_CHARS['='] = "\\u003d";
+		REPLACEMENT_CHARS['\''] = "\\u0027";
 	}
 
 	public final String string;
@@ -35,8 +33,9 @@ public class JsonString extends JsonElement {
 		escape(sb, string);
 	}
 
-	public static void escape(StringBuilder sb, String string) {
-		sb.append('"');
+	public static StringBuilder escape(StringBuilder sb, String string) {
+		sb.append('\"');
+
 		int last = 0;
 		int length = string.length();
 
@@ -45,7 +44,7 @@ public class JsonString extends JsonElement {
 			String replacement;
 
 			if (c < 128) {
-				replacement = HTML_SAFE_REPLACEMENT_CHARS[c];
+				replacement = REPLACEMENT_CHARS[c];
 
 				if (replacement == null) {
 					continue;
@@ -59,7 +58,7 @@ public class JsonString extends JsonElement {
 			}
 
 			if (last < i) {
-				sb.append(string, last, i - last);
+				sb.append(string, last, i);
 			}
 
 			sb.append(replacement);
@@ -67,9 +66,10 @@ public class JsonString extends JsonElement {
 		}
 
 		if (last < length) {
-			sb.append(string, last, length - last);
+			sb.append(string, last, length);
 		}
 
-		sb.append('"');
+		sb.append('\"');
+		return sb;
 	}
 }

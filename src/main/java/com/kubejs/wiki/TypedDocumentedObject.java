@@ -2,6 +2,7 @@ package com.kubejs.wiki;
 
 import com.kubejs.wiki.json.JsonArray;
 import com.kubejs.wiki.json.JsonObject;
+import com.kubejs.wiki.json.JsonString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,15 @@ public class TypedDocumentedObject {
 			JsonArray a = new JsonArray();
 
 			for (String s : info) {
+				String s0 = "> \"" + s + "\"";
+				String s1 = "> " + JsonString.escape(new StringBuilder(), s);
+
+				if (!s0.equals(s1)) {
+					System.out.println("Escaped >");
+					System.out.println(s0);
+					System.out.println(s1);
+				}
+
 				a.add(s);
 			}
 
