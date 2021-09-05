@@ -1,0 +1,71 @@
+extends LivingEntityJS
+
+final Player minecraftPlayer
+
+AttachedData getData()
+
+boolean isFake()
+
+InventoryJS getInventory()
+
+void sendInventoryUpdate()
+
+void give(ItemStackJS item)
+
+void giveInHand(ItemStackJS item)
+
+int getSelectedSlot()
+
+void setSelectedSlot(int index)
+
+ItemStackJS getMouseItem()
+
+void setMouseItem(ItemStackJS item)
+
+boolean isCreativeMode()
+
+boolean isSpectator()
+
+PlayerStatsJS getStats()
+    	
+void sendData(String channel, nullable Object data)
+
+void addFood(int f, float m)
+
+int getFoodLevel()
+
+void setFoodLevel(int foodLevel)
+
+void addExhaustion(float exhaustion)
+
+void addXP(int xp)
+
+void addXPLevels(int l)
+
+void setXp(int xp)
+
+int getXp()
+
+void setXpLevel(int l)
+
+int getXpLevel()
+
+void paint(CompoundTag renderer)
+
+void boostElytraFlight()
+
+void closeInventory()
+
+AbstractContainerMenu getOpenInventory()
+
+boolean isMiningBlock()
+
+void addItemCooldown(Item item, int ticks)
+
+int getAirSupply()
+
+void setAirSupply(int air)
+
+int getMaxAirSupply()
+
+Stages getStages()

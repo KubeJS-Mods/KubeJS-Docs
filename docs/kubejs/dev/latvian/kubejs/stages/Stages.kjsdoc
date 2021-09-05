@@ -1,0 +1,21 @@
+boolean addNoUpdate(String stage)
+
+boolean removeNoUpdate(String stage)
+
+Collection<String> getAll()
+
+boolean has(String stage)
+
+boolean add(String stage)
+
+boolean remove(String stage)
+
+final boolean set(String stage, boolean enabled)
+
+final boolean toggle(String stage)
+
+boolean clear()
+
+void sync()
+
+void replace(Collection<String> stages)

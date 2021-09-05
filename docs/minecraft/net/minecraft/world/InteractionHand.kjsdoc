@@ -1,0 +1,4 @@
+enum
+
+static final InteractionHand MAIN_HAND
+static final InteractionHand OFF_HAND

@@ -1,0 +1,25 @@
+extends PlayerJS
+
+void setCreativeMode(boolean mode)
+
+void setGameMode(String mode)
+
+boolean isOp()
+
+void kick(Text reason)
+
+void kick()
+
+void ban(String banner, String reason, long expiresInMillis)
+
+boolean getHasClientMod()
+
+boolean isAdvancementDone(ResourceLocation id)
+
+void unlockAdvancement(ResourceLocation id)
+
+void revokeAdvancement(ResourceLocation id)
+
+nullable BlockContainerJS getSpawnLocation()
+
+void setSpawnLocation(BlockContainerJS pos)

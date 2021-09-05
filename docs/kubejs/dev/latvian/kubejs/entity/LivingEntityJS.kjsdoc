@@ -1,0 +1,101 @@
+extends EntityJS
+
+boolean isChild()
+
+float getHealth()
+
+void setHealth(float hp)
+
+void heal(float hp)
+
+float getMaxHealth()
+
+void setMaxHealth(float hp)
+
+boolean isUndead()
+
+boolean isOnLadder()
+
+boolean isSleeping()
+
+boolean isElytraFlying()
+
+nullable LivingEntityJS getRevengeTarget()
+
+int getRevengeTimer()
+
+void setRevengeTarget(nullable LivingEntityJS target)
+
+nullable LivingEntityJS getLastAttackedEntity()
+
+int getLastAttackedEntityTime()
+
+int getIdleTime()
+
+EntityPotionEffectsJS getPotionEffects()
+
+nullable DamageSourceJS getLastDamageSource()
+
+nullable LivingEntityJS getAttackingEntity()
+
+void swingArm(InteractionHand hand)
+
+ItemStackJS getEquipment(EquipmentSlot slot)
+
+void setEquipment(EquipmentSlot slot, ItemStackJS item)
+
+ItemStackJS getHeldItem(InteractionHand hand)
+
+void setHeldItem(InteractionHand hand, ItemStackJS item)
+
+ItemStackJS getMainHandItem()
+
+void setMainHandItem(ItemStackJS item)
+
+ItemStackJS getOffHandItem()
+
+void setOffHandItem(ItemStackJS item)
+
+ItemStackJS getHeadArmorItem()
+
+void setHeadArmorItem(ItemStackJS item)
+
+ItemStackJS getChestArmorItem()
+
+void setChestArmorItem(ItemStackJS item)
+
+ItemStackJS getLegsArmorItem()
+
+void setLegsArmorItem(ItemStackJS item)
+
+ItemStackJS getFeetArmorItem()
+
+void setFeetArmorItem(ItemStackJS item)
+
+void damageEquipment(EquipmentSlot slot, int amount)
+
+void damageEquipment(EquipmentSlot slot, int amount, Consumer<ItemStackJS> onBroken)
+
+void damageEquipment(EquipmentSlot slot)
+
+void damageHeldItem(InteractionHand hand, int amount)
+
+void damageHeldItem(InteractionHand hand, int amount, Consumer<ItemStackJS> onBroken)
+
+void damageHeldItem()
+
+boolean isHoldingInAnyHand(Object ingredient)
+
+float getMovementSpeed()
+
+void setMovementSpeed(float speed)
+
+boolean canEntityBeSeen(EntityJS entity)
+
+float getAbsorptionAmount()
+
+void setAbsorptionAmount(float amount)
+
+double getReachDistance()
+
+RayTraceResultJS rayTrace()

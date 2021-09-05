@@ -18,23 +18,21 @@ public class DocType {
 
 	public static DocType generic(String s) {
 		DocType t = new DocType();
-		t.docClass = new DocClass();
-		t.docClass.name = s;
+		t.name = s;
 		t.type = DocType.TYPE_GENERIC;
 		return t;
 	}
 
 	public static DocType undocumented(String s) {
 		DocType t = new DocType();
-		t.docClass = new DocClass();
-		t.docClass.name = s;
+		t.name = s;
 		t.type = DocType.TYPE_UNDOCUMENTED;
 		return t;
 	}
 
 	public static DocType ofClass(DocClass c, boolean b) {
 		DocType t = new DocType();
-		t.docClass = c;
+		t.name = c.unique;
 		t.type = DocType.TYPE_CLASS;
 
 		if (b) {
@@ -47,7 +45,7 @@ public class DocType {
 	}
 
 	public int type = TYPE_CLASS;
-	public DocClass docClass;
+	public String name;
 	public List<DocType> generics = new ArrayList<>(0);
 
 	private DocType() {
@@ -55,11 +53,11 @@ public class DocType {
 
 	public JsonElement toJson() {
 		if (type == TYPE_CLASS && generics.isEmpty()) {
-			return new JsonString(docClass.unique);
+			return new JsonString(name);
 		}
 
 		JsonObject o = new JsonObject();
-		o.add("name", type == 0 ? docClass.unique : docClass.name);
+		o.add("name", name);
 
 		if (type != 0) {
 			o.add("type", type);
@@ -86,11 +84,11 @@ public class DocType {
 	}
 
 	public boolean is(DocType type) {
-		return type == this || docClass.is(type.docClass) && generics.size() == type.generics.size() && generics.equals(type.generics);
+		return type == this || name.equals(type.name) && generics.size() == type.generics.size() && generics.equals(type.generics);
 	}
 
 	public void append(StringBuilder sb) {
-		sb.append(docClass.name);
+		sb.append(name);
 
 		if (!generics.isEmpty()) {
 			sb.append('<');

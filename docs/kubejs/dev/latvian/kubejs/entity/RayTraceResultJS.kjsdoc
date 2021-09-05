@@ -1,0 +1,11 @@
+final EntityJS fromEntity
+final String type
+final double distance
+
+double hitX
+double hitY
+double hitZ
+
+nullable BlockContainerJS block
+nullable Direction facing
+nullable EntityJS entity

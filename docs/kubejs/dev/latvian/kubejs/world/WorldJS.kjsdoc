@@ -1,3 +1,53 @@
+ScriptType getSide()
+
+AttachedData getData()
+
+GameRulesJS getGameRules()
+
+nullable ServerJS getServer()
+
+long getTime()
+
+long getLocalTime()
+
 String getDimension()
 
+boolean isOverworld()
+
+boolean isDaytime()
+
+boolean isRaining()
+
+boolean isThundering()
+
+void setRainStrength(float strength)
+
 BlockContainerJS getBlock(int x, int y, int z)
+
+BlockContainerJS getBlock(BlockPos pos)
+
+BlockContainerJS getBlock(BlockEntity blockEntity)
+
+PlayerDataJS getPlayerData(Player player)
+
+nullable EntityJS getEntity(nullable Entity e)
+
+nullable LivingEntityJS getLivingEntity(nullable Entity entity)
+
+nullable PlayerJS getPlayer(nullable Entity entity)
+
+EntityArrayList createEntityList(Collection<Entity> entities)
+
+EntityArrayList getPlayers()
+
+EntityArrayList getEntities()
+
+ExplosionJS createExplosion(double x, double y, double z)
+
+nullable EntityJS createEntity(ResourceLocation id)
+
+void spawnLightning(double x, double y, double z, boolean effectOnly, nullable EntityJS player)
+
+void spawnLightning(double x, double y, double z, boolean effectOnly)
+
+void spawnFireworks(double x, double y, double z, FireworksJS f)

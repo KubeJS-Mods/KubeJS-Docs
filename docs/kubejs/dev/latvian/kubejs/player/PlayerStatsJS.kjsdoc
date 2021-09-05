@@ -1,0 +1,23 @@
+PlayerJS getPlayer()
+
+int get(ResourceLocation id)
+
+void set(ResourceLocation id, int value)
+
+void add(ResourceLocation id, int value)
+
+int getBlocksMined(Block block)
+
+int getItemsCrafted(Item item)
+
+int getItemsUsed(Item item)
+
+int getItemsBroken(Item item)
+
+int getItemsPickedUp(Item item)
+
+int getItemsDropped(Item item)
+
+int getKilled(EntityType entity)
+
+int getKilledBy(EntityType entity)

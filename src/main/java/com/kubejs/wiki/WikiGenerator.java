@@ -135,6 +135,8 @@ public class WikiGenerator {
 			String exampleTitle = "";
 			List<String> exampleLines = new ArrayList<>();
 
+			System.out.println("> " + c.name);
+
 			for (int line = 0; line < c.lines.size(); line++) {
 				try {
 					String s = c.lines.get(line).trim();
@@ -158,6 +160,7 @@ public class WikiGenerator {
 					} else if (s.startsWith("#")) {
 						lastObject.info.add(s.substring(1).trim());
 					} else if (!s.isEmpty() && !s.startsWith("//")) {
+						System.out.println("> --- " + s);
 						LineReader reader = new LineReader(s);
 						String type = reader.readJavaName();
 
@@ -269,10 +272,11 @@ public class WikiGenerator {
 									if (method.name.length() >= 3 && CharTest.AZ_U.test(method.name.charAt(2)) && method.name.startsWith("is") && method.params.size() == 0 && method.type.is(booleanType)) {
 										DocBean bean = c.bean(2, method.name);
 
-										if (bean.type != null && !bean.type.is(method.type)) {
+										if (bean.modStatic == method.modStatic && bean.type != null && !bean.type.is(method.type)) {
 											bean.hasConflicts = true;
 										} else {
 											bean.type = method.type;
+											bean.modStatic = method.modStatic;
 										}
 
 										bean.hasGetter = true;
@@ -280,10 +284,15 @@ public class WikiGenerator {
 									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("get") && method.params.size() == 0) {
 										DocBean bean = c.bean(3, method.name);
 
-										if (bean.type != null && !bean.type.is(method.type)) {
+										if (bean.modStatic == method.modStatic && bean.type != null && !bean.type.is(method.type)) {
 											bean.hasConflicts = true;
 										} else {
 											bean.type = method.type;
+											bean.modStatic = method.modStatic;
+										}
+
+										if (method.modNullable) {
+											bean.modNullable = true;
 										}
 
 										bean.hasGetter = true;
@@ -291,10 +300,15 @@ public class WikiGenerator {
 									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("set") && method.params.size() == 1) {
 										DocBean bean = c.bean(3, method.name);
 
-										if (bean.type != null && !bean.type.is(method.params.get(0).type)) {
+										if (bean.modStatic == method.modStatic && bean.type != null && !bean.type.is(method.params.get(0).type)) {
 											bean.hasConflicts = true;
 										} else {
 											bean.type = method.params.get(0).type;
+											bean.modStatic = method.modStatic;
+										}
+
+										if (method.params.get(0).modNullable) {
+											bean.modNullable = true;
 										}
 
 										bean.hasSetter = true;
@@ -338,8 +352,16 @@ public class WikiGenerator {
 						field.access = 0;
 					}
 
+					if (bean.modStatic) {
+						field.modStatic = true;
+					}
+
 					if (bean.modDeprecated) {
 						field.modDeprecated = true;
+					}
+
+					if (bean.modNullable) {
+						field.modNullable = true;
 					}
 
 					field.type = bean.type;
@@ -373,7 +395,7 @@ public class WikiGenerator {
 			return;
 		}
 
-		HttpURLConnection connection = (HttpURLConnection) new URL("https://wiki.kubejs.com/upload").openConnection();
+		HttpURLConnection connection = (HttpURLConnection) new URL("https://kubejs.com/wiki/upload").openConnection();
 		connection.setRequestMethod("POST");
 		connection.setDoInput(true);
 		connection.setDoOutput(true);

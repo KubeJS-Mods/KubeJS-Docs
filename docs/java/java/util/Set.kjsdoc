@@ -1,0 +1,5 @@
+interface
+generic E
+extends Collection<E>
+
+void remove(E value)

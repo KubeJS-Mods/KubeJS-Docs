@@ -1,0 +1,11 @@
+final DamageSource source
+
+WorldJS getWorld()
+
+String getType()
+
+nullable EntityJS getImmediate()
+
+nullable EntityJS getActual()
+
+nullable PlayerJS getPlayer()

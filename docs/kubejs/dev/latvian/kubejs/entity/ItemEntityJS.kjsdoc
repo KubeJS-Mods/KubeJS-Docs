@@ -1,0 +1,27 @@
+extends EntityJS
+
+ItemStackJS getItem()
+
+void setItem(ItemStackJS item)
+
+int getLifespan()
+
+void setLifespan(int lifespan)
+
+nullable UUID getOwner()
+
+void setOwner(UUID owner)
+
+nullable UUID getThrower()
+
+void setThrower(UUID thrower)
+
+void setDefaultPickupDelay()
+
+void setNoPickupDelay()
+
+void setInfinitePickupDelay()
+
+void setPickupDelay(int ticks)
+
+void setNoDespawn()

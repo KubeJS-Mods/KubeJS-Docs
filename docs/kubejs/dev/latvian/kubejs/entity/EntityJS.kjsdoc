@@ -1,1 +1,197 @@
 implements MessageSender
+
+final Entity minecraftEntity
+
+WorldJS getWorld()
+
+nullable ServerJS getServer()
+
+UUID getId()
+
+String getType()
+
+GameProfile getProfile()
+
+nullable ItemStackJS getItem()
+
+boolean isFrame()
+
+Set<String> getTags()
+
+boolean isAlive()
+
+boolean isLiving()
+
+boolean isPlayer()
+
+boolean isCrouching()
+
+boolean isSprinting()
+
+boolean isSwimming()
+
+boolean isGlowing()
+
+void setGlowing(boolean glowing)
+
+boolean isInvisible()
+
+void setInvisible(boolean invisible)
+
+boolean isInvulnerable()
+
+void setInvulnerable(boolean invulnerable)
+
+boolean isBoss()
+
+boolean isMonster()
+
+boolean isAnimal()
+
+boolean isAmbientCreature()
+
+boolean isWaterCreature()
+
+boolean isPeacefulCreature()
+
+boolean isOnGround()
+
+float getFallDistance()
+
+void setFallDistance(float fallDistance)
+
+float getStepHeight()
+
+void setStepHeight(float stepHeight)
+
+boolean getNoClip()
+
+void setNoClip(boolean noClip)
+
+boolean isSilent()
+
+void setSilent(boolean isSilent)
+
+boolean getNoGravity()
+
+void setNoGravity(boolean noGravity)
+
+double getX()
+
+void setX(double x)
+
+double getY()
+
+void setY(double y)
+
+double getZ()
+
+void setZ(double z)
+
+float getYaw()
+
+void setYaw(float yaw)
+
+float getPitch()
+
+void setPitch(float pitch)
+
+double getMotionX()
+
+void setMotionX(double x)
+
+double getMotionY()
+
+void setMotionY(double y)
+
+double getMotionZ()
+
+void setMotionZ(double z)
+
+void setMotion(double x, double y, double z)
+
+int getTicksExisted()
+
+void setPosition(BlockContainerJS block)
+
+void setPosition(double x, double y, double z)
+
+void setRotation(float yaw, float pitch)
+
+void setPositionAndRotation(double x, double y, double z, float yaw, float pitch)
+
+void addMotion(double x, double y, double z)
+	
+void kill()
+
+boolean startRiding(EntityJS e, boolean force)
+
+void removePassengers()
+
+void dismountRidingEntity()
+
+EntityArrayList getPassengers()
+
+boolean isPassenger(EntityJS e)
+
+EntityArrayList getRecursivePassengers()
+
+nullable EntityJS getRidingEntity()
+
+String getTeamId() {
+
+boolean isOnSameTeam(EntityJS e)
+
+boolean isOnScoreboardTeam(String teamID)
+
+void setCustomName(Text name)
+
+Text getCustomName()
+
+boolean getHasCustomName()
+
+void setCustomNameAlwaysVisible(boolean b)
+
+boolean getCustomNameAlwaysVisible()
+
+Direction getHorizontalFacing()
+
+Direction getFacing()
+
+float getEyeHeight()
+
+BlockContainerJS getBlock()
+
+void setOnFire(int seconds)
+
+void extinguish()
+
+MapJS getFullNBT()
+
+void setFullNBT(MapJS n)
+
+MapJS getNbt()
+
+void playSound(SoundEvent id, float volume, float pitch)
+
+void playSound(SoundEvent id)
+
+void spawn()
+
+void attack(String source, float hp)
+
+void attack(float hp)
+
+RayTraceResultJS rayTrace(double distance)
+
+boolean isInWater()
+
+boolean isUnderWater()
+
+double getDistanceSq(double x, double y, double z)
+
+double getDistance(double x, double y, double z)
+
+double getDistanceSq(BlockPos pos)
+
+double getDistance(BlockPos pos)

@@ -1,0 +1,9 @@
+extends EntityJS
+
+ItemStackJS getItem()
+
+void setItem(ItemStackJS item)
+
+int getFrameRotation()
+
+void setFrameRotation(int rotation)
