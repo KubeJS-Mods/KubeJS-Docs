@@ -1,6 +1,6 @@
 interface
 generic T
 
-void accept(T t)
+void accept(T object)
 
 default itself andThen(Consumer<T> after)

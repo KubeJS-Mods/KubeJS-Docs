@@ -1,0 +1,10 @@
+interface
+generic T
+
+boolean test(T object)
+
+default itself and(Predicate<T> other)
+
+default itself or(Predicate<T> other)
+
+default itself negate()

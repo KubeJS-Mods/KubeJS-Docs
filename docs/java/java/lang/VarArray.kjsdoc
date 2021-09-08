@@ -1,0 +1,3 @@
+primitive
+generic T
+extends Array<T>

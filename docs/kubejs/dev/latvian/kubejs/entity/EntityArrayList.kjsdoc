@@ -1,0 +1,16 @@
+extends ArrayList<EntityJS>
+implements MessageSender
+
+WorldJS getWorld()
+
+void kill()
+
+void playSound(SoundEvent id, float volume, float pitch)
+
+void playSound(SoundEvent id)
+
+EntityArrayList filter(Predicate<EntityJS> filter)
+
+sendData(String channel, nullable MapJS data)
+
+EntityJS getFirst()

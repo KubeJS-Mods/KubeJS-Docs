@@ -1,0 +1,37 @@
+final ItemHandler minecraftInventory
+
+int getSize()
+
+ItemStackJS get(int slot)
+
+void set(int slot, ItemStackJS item)
+
+ItemStackJS insert(int slot, ItemStackJS item, boolean simulate)
+
+ItemStackJS extract(int slot, int amount, boolean simulate)
+
+int getSlotLimit(int slot)
+
+boolean isItemValid(int slot, Object item)
+
+void clear()
+
+void clear(ItemStackJS item)
+
+int find()
+
+int find(ItemStackJS item)
+
+int count()
+
+int count(ItemStackJS item)
+
+int countNonEmpty()
+
+int countNonEmpty(ItemStackJS item)
+
+boolean isEmpty()
+
+void markDirty()
+
+nullable BlockContainerJS getBlock(WorldJS world)

@@ -1,0 +1,55 @@
+public Logger getLogger()
+
+void setMuted(boolean m)
+
+boolean getMuted()
+
+void setDebugEnabled(boolean m)
+
+boolean getDebugEnabled()
+
+void setWriteToFile(boolean m)
+
+boolean getWriteToFile()
+
+void setLineNumber(boolean b)
+
+void info(Object message)
+
+void infof(Object message, VarArray<Object> args)
+
+void log(Object message)
+
+void warn(Object message)
+
+void warn(String message, Throwable throwable)
+
+void warnf(String message, VarArray<Object> args)
+
+void error(Object message)
+
+void error(String message, Throwable throwable)
+
+void errorf(String message, VarArray<Object> args)
+
+boolean shouldPrintDebug()
+
+void debug(Object message)
+
+void debugf(String message, VarArray<Object> args)
+
+void group()
+
+void groupEnd()
+
+void trace()
+
+int getScriptLine()
+
+void printClass(String className, boolean tree)
+
+void printClass(String className)
+
+void printObject(nullable Object o, boolean tree)
+
+void printObject(nullable Object o)
