@@ -1,4 +1,4 @@
-public Logger getLogger()
+Logger getLogger()
 
 void setMuted(boolean m)
 

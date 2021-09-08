@@ -192,6 +192,10 @@ public class WikiGenerator {
 								boolean modDefault = false;
 								boolean modItself = false;
 
+								if (t.equals("public") || t.equals("private") || t.equals("protected")) {
+									throw new DocException("Method can't have a modifier!");
+								}
+
 								if (t.equals("nullable")) {
 									modNullable = true;
 									t = reader.readJavaName();
