@@ -1,0 +1,8 @@
+boolean dataPackOutput
+boolean logAddedRecipes
+boolean logRemovedRecipes
+boolean logOverrides
+boolean logSkippedRecipes
+boolean logErroringRecipes
+boolean logInvalidRecipeHandlers
+boolean useOriginalRecipeForFilters

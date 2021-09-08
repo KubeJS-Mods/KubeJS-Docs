@@ -1,0 +1,17 @@
+final Advancement advancement
+
+ResourceLocation id()
+
+nullable itself getParent()
+
+Set<itself> getChildren()
+
+void addChild(AdvancementJS a)
+
+Text getDisplayText()
+
+boolean hasDisplay()
+
+Text getTitle()
+
+Text getDescription()

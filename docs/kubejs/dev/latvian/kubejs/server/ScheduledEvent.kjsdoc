@@ -1,0 +1,15 @@
+boolean isUsingTicks()
+
+ServerJS getServer()
+
+long getTimer()
+
+long getEndTime()
+
+long getTimerDuration()
+
+nullable Object getData()
+
+void reschedule()
+
+ScheduledEvent reschedule(long timer)

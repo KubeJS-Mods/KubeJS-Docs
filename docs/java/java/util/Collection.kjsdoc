@@ -3,6 +3,24 @@ generic E
 
 int size()
 
+boolean isEmpty()
+
+boolean contains(Object object)
+
 Iterator<E> iterator()
 
+boolean add(E object)
+
+boolean remove(Object object)
+
+boolean removeIf(Predicate<E> filter)
+
+void clear()
+
 void forEach(Consumer<E> consumer)
+
+default Spliterator<E> spliterator()
+
+default Stream<E> stream()
+
+default Stream<E> parallelStream()

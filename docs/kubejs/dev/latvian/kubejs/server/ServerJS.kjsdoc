@@ -1,0 +1,51 @@
+final ServerWorldJS overworld
+
+AttachedData getData()
+
+List<ServerWorldJS> getWorlds()
+
+ServerWorldJS getOverworld()
+
+MinecraftServer getMinecraftServer()
+
+boolean isRunning()
+
+boolean getHardcore()
+
+boolean isSinglePlayer()
+
+boolean isDedicated()
+
+String getMotd()
+
+void setMotd(String text)
+
+void stop()
+
+WorldJS getLevel(String dimension)
+
+deprecated WorldJS getLevel(Level minecraftLevel)
+
+nullable ServerPlayerJS getPlayer(UUID uuid)
+
+nullable ServerPlayerJS getPlayer(String name)
+
+deprecated nullable ServerPlayerJS getPlayer(Player minecraftPlayer)
+
+EntityArrayList getPlayers()
+
+EntityArrayList getEntities()
+
+EntityArrayList getEntities(String filter)
+
+ScheduledEvent schedule(long timer, nullable Object data, IScheduledEventCallback event)
+
+ScheduledEvent schedule(long timer, IScheduledEventCallback event)
+
+ScheduledEvent scheduleInTicks(long ticks, nullable Object data, IScheduledEventCallback event)
+
+ScheduledEvent scheduleInTicks(long ticks, IScheduledEventCallback event)
+
+nullable AdvancementJS getAdvancement(ResourceLocation id)
+
+void sendDataToAll(String channel, nullable Object data)

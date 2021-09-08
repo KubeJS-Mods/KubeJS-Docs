@@ -1,0 +1,7 @@
+String getString(String rule)
+
+boolean getBoolean(String rule)
+
+int getInt(String rule)
+
+void set(String rule, Object value)

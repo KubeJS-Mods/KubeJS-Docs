@@ -1,0 +1,5 @@
+interface
+generic T
+generic R
+
+R apply(T object)

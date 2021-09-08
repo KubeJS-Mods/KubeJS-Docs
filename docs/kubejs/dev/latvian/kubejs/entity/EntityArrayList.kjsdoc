@@ -11,6 +11,6 @@ void playSound(SoundEvent id)
 
 EntityArrayList filter(Predicate<EntityJS> filter)
 
-sendData(String channel, nullable MapJS data)
+void sendData(String channel, nullable MapJS data)
 
 EntityJS getFirst()

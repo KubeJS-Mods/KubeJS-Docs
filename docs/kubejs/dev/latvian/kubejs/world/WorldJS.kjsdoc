@@ -28,15 +28,15 @@ BlockContainerJS getBlock(BlockPos pos)
 
 BlockContainerJS getBlock(BlockEntity blockEntity)
 
-PlayerDataJS getPlayerData(Player player)
+deprecated PlayerDataJS getPlayerData(Player player)
 
-nullable EntityJS getEntity(nullable Entity e)
+deprecated nullable EntityJS getEntity(nullable Entity e)
 
-nullable LivingEntityJS getLivingEntity(nullable Entity entity)
+deprecated nullable LivingEntityJS getLivingEntity(nullable Entity entity)
 
-nullable PlayerJS getPlayer(nullable Entity entity)
+deprecated nullable PlayerJS getPlayer(nullable Entity entity)
 
-EntityArrayList createEntityList(Collection<Entity> entities)
+deprecated EntityArrayList createEntityList(Collection<Entity> entities)
 
 EntityArrayList getPlayers()
 

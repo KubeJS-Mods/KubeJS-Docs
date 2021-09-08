@@ -1,0 +1,11 @@
+enum
+
+static final ScriptType STARTUP
+static final ScriptType SERVER
+static final ScriptType CLIENT
+
+final ConsoleJS console
+
+boolean isClient()
+
+boolean isServer()

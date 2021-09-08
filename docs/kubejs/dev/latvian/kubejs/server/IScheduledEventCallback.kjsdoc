@@ -1,0 +1,3 @@
+interface
+
+void onCallback(ScheduledEvent callback)
