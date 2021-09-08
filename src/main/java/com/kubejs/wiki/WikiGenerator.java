@@ -283,6 +283,10 @@ public class WikiGenerator {
 											bean.modStatic = method.modStatic;
 										}
 
+										if (method.modDeprecated) {
+											bean.modDeprecated = true;
+										}
+
 										bean.hasGetter = true;
 										method.bean = bean;
 									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("get") && method.params.size() == 0) {
@@ -299,6 +303,10 @@ public class WikiGenerator {
 											bean.modNullable = true;
 										}
 
+										if (method.modDeprecated) {
+											bean.modDeprecated = true;
+										}
+
 										bean.hasGetter = true;
 										method.bean = bean;
 									} else if (method.name.length() >= 4 && CharTest.AZ_U.test(method.name.charAt(3)) && method.name.startsWith("set") && method.params.size() == 1) {
@@ -313,6 +321,10 @@ public class WikiGenerator {
 
 										if (method.params.get(0).modNullable) {
 											bean.modNullable = true;
+										}
+
+										if (method.modDeprecated) {
+											bean.modDeprecated = true;
 										}
 
 										bean.hasSetter = true;
