@@ -184,8 +184,8 @@ public class WikiGenerator {
 							case "typescript" -> c.typescript = reader.read();
 							case "displayName" -> c.displayName = reader.readJavaName();
 							case "generic" -> c.generics.add(reader.readJavaName());
-							case "event" -> c.events.add(reader.read(CharTest.EVENT_ID));
-							case "recipe" -> c.recipes.add(reader.read(CharTest.RESOURCE_LOCATION));
+							case "event" -> c.events.add(reader.skipWhitespace().read(CharTest.EVENT_ID));
+							case "recipe" -> c.recipes.add(reader.skipWhitespace().read(CharTest.RESOURCE_LOCATION));
 							case "canCancel" -> c.canCancel = reader.read().equalsIgnoreCase("true");
 							case "binding" -> c.binding = reader.readJavaName();
 							case "throws" -> {

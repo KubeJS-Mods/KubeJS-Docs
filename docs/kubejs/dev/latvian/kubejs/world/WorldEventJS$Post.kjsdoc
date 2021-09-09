@@ -1,0 +1,16 @@
+extends ExplosionEventJS
+event world.explosion.post
+
+EntityArrayList getAffectedEntities()
+
+void removeAffectedEntity(EntityJS entity)
+
+void removeAllAffectedEntities()
+
+List<BlockContainerJS> getAffectedBlocks()
+
+void removeAffectedBlock(BlockContainerJS block)
+
+void removeAllAffectedBlocks()
+
+void removeKnockback()

@@ -1,0 +1,11 @@
+binding events
+
+void listen(String id, IEventHandler handler)
+
+void post(String id, nullable Object data)
+
+void post(String id)
+
+boolean postCancellable(String id, nullable Object data)
+
+boolean postCancellable(String id)

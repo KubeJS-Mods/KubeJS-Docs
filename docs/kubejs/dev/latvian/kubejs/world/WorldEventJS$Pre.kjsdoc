@@ -1,0 +1,7 @@
+extends ExplosionEventJS
+event world.explosion.pre
+canCancel true
+
+float getSize()
+
+void setSize(float size)

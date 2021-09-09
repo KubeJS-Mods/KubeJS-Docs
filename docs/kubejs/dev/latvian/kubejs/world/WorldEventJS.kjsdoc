@@ -1,0 +1,5 @@
+extends EventJS
+
+WorldJS getWorld()
+
+nullable ServerJS getServer()

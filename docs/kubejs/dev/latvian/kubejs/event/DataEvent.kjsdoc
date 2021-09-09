@@ -1,0 +1,4 @@
+extends EventJS
+event custom_id
+
+nullable Object getData()

@@ -1,0 +1,13 @@
+extends WorldEventJS
+
+Vec3 getPosition()
+
+double getX()
+
+double getY()
+
+double getZ()
+
+BlockContainerJS getBlock()
+
+nullable LivingEntityJS getExploder()
