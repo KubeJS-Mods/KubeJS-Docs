@@ -162,11 +162,24 @@ public class WikiGenerator {
 					} else if (!s.isEmpty() && !s.startsWith("//")) {
 						System.out.println("> --- " + s);
 						LineReader reader = new LineReader(s);
+						List<String> lineGenerics = new ArrayList<>(c.generics);
+						List<String> extraGenerics = new ArrayList<>(0);
+
+						if (reader.read(CharTest.DIAMOND_OPEN).equals("<")) {
+							extraGenerics.add(reader.readJavaName());
+
+							while (reader.read(CharTest.DIAMOND_CLOSE_OR_COMMA).equals(",")) {
+								extraGenerics.add(reader.readJavaName());
+							}
+						}
+
+						lineGenerics.addAll(extraGenerics);
+
 						String type = reader.readJavaName();
 
 						switch (type) {
-							case "extends" -> c.extendsType = readType(c, reader);
-							case "implements" -> c.implementsTypes.add(readType(c, reader));
+							case "extends" -> c.extendsType = readType(c, c.generics, reader.readJavaName(), reader);
+							case "implements" -> c.implementsTypes.add(readType(c, c.generics, reader.readJavaName(), reader));
 							case "primitive", "interface", "enum", "annotation" -> c.classType = type;
 							case "typescript" -> c.typescript = reader.read();
 							case "displayName" -> c.displayName = reader.readJavaName();
@@ -233,7 +246,7 @@ public class WikiGenerator {
 									modItself = true;
 								}
 
-								DocType dt = modItself ? c.itselfType() : readType(c, t, reader);
+								DocType dt = modItself ? c.itselfType() : readType(c, lineGenerics, t, reader);
 								String name = reader.readJavaName();
 
 								if (reader.skipWhitespace().read(CharTest.FUNC_OPEN).equals("(")) {
@@ -247,6 +260,7 @@ public class WikiGenerator {
 									method.modDeprecated = modDeprecated;
 									method.modDefault = modDefault;
 									method.modItself = modItself;
+									method.generics.addAll(extraGenerics);
 
 									if (!reader.skipWhitespace().read(CharTest.FUNC_CLOSE).equals(")")) {
 										do {
@@ -265,7 +279,7 @@ public class WikiGenerator {
 											}
 
 											DocParam p = new DocParam();
-											p.type = readType(c, pt, reader);
+											p.type = readType(c, lineGenerics, pt, reader);
 											p.name = reader.readJavaName();
 											p.modNullable = pNullable;
 											p.modDefault = pDefault;
@@ -430,7 +444,7 @@ public class WikiGenerator {
 		connection.disconnect();
 	}
 
-	private DocType readType(DocClass context, String type, LineReader reader) {
+	private DocType readType(DocClass context, Collection<String> generics, String type, LineReader reader) {
 		reader.skipWhitespace();
 
 		if (type.equals("itself")) {
@@ -439,28 +453,22 @@ public class WikiGenerator {
 
 		DocType t;
 
-		if (type.startsWith("$_")) {
-			throw new DocException("Class can't start with $_!");
-		} else if (context.generics.contains(type)) {
+		if (generics.contains(type)) {
 			t = DocType.generic(type);
 		} else if (!classLookup.containsKey(type)) {
 			t = DocType.undocumented(type);
 		} else {
 			t = DocType.ofClass(requireClass(type), false);
+		}
 
-			if (reader.read(CharTest.DIAMOND_OPEN).equals("<")) {
-				t.generics.add(readType(context, reader));
+		if (reader.read(CharTest.DIAMOND_OPEN).equals("<")) {
+			t.generics.add(readType(context, generics, reader.readJavaName(), reader));
 
-				while (reader.read(CharTest.DIAMOND_CLOSE_OR_COMMA).equals(",")) {
-					t.generics.add(readType(context, reader));
-				}
+			while (reader.read(CharTest.DIAMOND_CLOSE_OR_COMMA).equals(",")) {
+				t.generics.add(readType(context, generics, reader.readJavaName(), reader));
 			}
 		}
 
 		return t;
-	}
-
-	private DocType readType(DocClass context, LineReader reader) {
-		return readType(context, reader.readJavaName(), reader);
 	}
 }

@@ -1,0 +1,8 @@
+interface
+generic T
+
+int compare(T o1, T o2)
+
+default itself reversed()
+
+default itself thenComparing(Comparator<T> other)

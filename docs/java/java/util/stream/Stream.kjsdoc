@@ -1,0 +1,25 @@
+interface
+generic T
+extends BaseStream<T, Stream<T>>
+
+itself filter(Predicate<T> filter)
+
+<R> Stream<R> map(Function<T, R> mapper)
+
+IntStream mapToInt(Function<T, Integer> function)
+
+itself distinct()
+
+itself sorted()
+
+itself sorted(Comparator<T> comparator)
+
+itself peek(Consumer<T> consumer)
+
+itself limit(long limit)
+
+itself skip(long skip)
+
+void forEach(Consumer<T> consumer)
+
+void forEachOrdered(Consumer<T> consumer)

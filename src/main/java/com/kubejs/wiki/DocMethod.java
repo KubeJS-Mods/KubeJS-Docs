@@ -16,6 +16,7 @@ public class DocMethod extends TypedDocumentedObject {
 	public boolean modItself = false;
 	public List<String> throwsTypes = new ArrayList<>(0);
 	public DocBean bean = null;
+	public List<String> generics = new ArrayList<>(0);
 
 	@Override
 	public JsonObject toJson() {
@@ -64,6 +65,16 @@ public class DocMethod extends TypedDocumentedObject {
 			}
 
 			o.add("params", a);
+		}
+
+		if (!generics.isEmpty()) {
+			JsonArray a = new JsonArray();
+
+			for (String p : generics) {
+				a.add(p);
+			}
+
+			o.add("generics", a);
 		}
 
 		return o;
