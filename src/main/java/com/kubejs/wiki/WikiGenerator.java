@@ -186,8 +186,8 @@ public class WikiGenerator {
 							case "generic" -> c.generics.add(reader.readJavaName());
 							case "event" -> c.events.add(reader.skipWhitespace().read(CharTest.EVENT_ID));
 							case "recipe" -> c.recipes.add(reader.skipWhitespace().read(CharTest.RESOURCE_LOCATION));
-							case "canCancel" -> c.canCancel = reader.read().equalsIgnoreCase("true");
 							case "binding" -> c.binding = reader.readJavaName();
+							case "source" -> c.source = reader.skipWhitespace().readAll();
 							case "throws" -> {
 								if (lastObject instanceof DocMethod) {
 									((DocMethod) lastObject).throwsTypes.add(reader.readJavaName());

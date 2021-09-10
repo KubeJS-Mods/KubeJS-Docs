@@ -27,9 +27,9 @@ public class DocClass extends TypedDocumentedObject {
 	public List<DocMethod> methods = new ArrayList<>(5);
 	public List<String> events = new ArrayList<>(0);
 	public List<String> recipes = new ArrayList<>(0);
-	public Boolean canCancel = null;
 	public List<DocExample> examples = new ArrayList<>(0);
 	public String binding = "";
+	public String source = "";
 	public Map<String, DocBean> beans = new LinkedHashMap<>(0);
 
 	@Override
@@ -96,10 +96,6 @@ public class DocClass extends TypedDocumentedObject {
 			o.add("recipes", a);
 		}
 
-		if (canCancel != null) {
-			o.add("canCancel", canCancel);
-		}
-
 		if (!examples.isEmpty()) {
 			JsonArray a = new JsonArray();
 
@@ -112,6 +108,10 @@ public class DocClass extends TypedDocumentedObject {
 
 		if (!binding.isEmpty()) {
 			o.add("binding", binding);
+		}
+
+		if (!source.isEmpty()) {
+			o.add("source", source);
 		}
 
 		if (extendsType != null) {

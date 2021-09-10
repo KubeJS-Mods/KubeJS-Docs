@@ -42,4 +42,8 @@ public class LineReader {
 		read(CharTest.WHITESPACE);
 		return this;
 	}
+
+	public String readAll() {
+		return string.substring(pos).trim();
+	}
 }

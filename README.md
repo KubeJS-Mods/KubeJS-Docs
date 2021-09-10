@@ -24,6 +24,7 @@
 - recipe namespace:recipe_id (for classes that are a recipe type wrapper, one line for each type)
 - canCancel `true`|`false` (only for event classes, defaults to `false`)
 - binding JSClassName (used for global bindings such as UUIDWrapper as UUID)
+- source URL
 
 ### Field syntax
 
