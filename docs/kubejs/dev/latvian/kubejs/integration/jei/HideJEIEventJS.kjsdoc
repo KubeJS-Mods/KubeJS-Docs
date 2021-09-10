@@ -1,0 +1,10 @@
+extends EventJS
+generic T
+event jei.hide.items
+event jei.hide.fluids
+
+Collection<T> getAllIngredients()
+
+void hide(Object object)
+
+void hideAll()

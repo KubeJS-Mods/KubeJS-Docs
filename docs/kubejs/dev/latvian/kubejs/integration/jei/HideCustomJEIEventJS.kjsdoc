@@ -1,0 +1,4 @@
+extends EventJS
+event jei.hide.custom
+
+HideJEIEventJS get(IIngredientType s)

@@ -1,0 +1,8 @@
+extends EventJS
+event jei.subtypes
+
+void registerInterpreter(ItemStackJS item, Function<ItemStackJS, Object> interpreter)
+
+void useNBT(ItemStackJS item)
+
+void useNBTKey(ItemStackJS item, String key)

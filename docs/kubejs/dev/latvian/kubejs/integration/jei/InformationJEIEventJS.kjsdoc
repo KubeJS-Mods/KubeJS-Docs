@@ -1,0 +1,6 @@
+extends EventJS
+event jei.information
+
+void add(Object object, VarArray<String> info)
+
+<T> void addForType(IIngredientType<T> type, Object object, VarArray<String> info)

@@ -1,0 +1,6 @@
+extends EventJS
+generic T
+event jei.add.items
+event jei.add.fluids
+
+void add(Object object)

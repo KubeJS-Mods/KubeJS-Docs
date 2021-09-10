@@ -1,0 +1,10 @@
+extends EventJS
+event jei.remove.categories
+
+Collection<IRecipeCategory<Object>> getCategories()
+
+void remove(VarArray<String> categoriesToYeet)
+
+Collection<ResourceLocation> getCategoryIds()
+
+void removeIf(Predicate<IRecipeCategory<Object>> filter)

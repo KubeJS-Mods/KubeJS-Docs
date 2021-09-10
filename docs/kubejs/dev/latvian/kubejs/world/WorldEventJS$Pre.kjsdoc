@@ -1,6 +1,7 @@
 extends ExplosionEventJS
 event world.explosion.pre
-canCancel true
+
+void cancel()
 
 float getSize()
 

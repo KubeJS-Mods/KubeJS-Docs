@@ -1,1 +1,1 @@
-void cancel()
+// We implement `void cancel()` for each event where its supported

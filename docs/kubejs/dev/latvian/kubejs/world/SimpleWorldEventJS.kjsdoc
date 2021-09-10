@@ -1,0 +1,4 @@
+extends WorldEventJS
+event world.load
+event world.unload
+event world.tick

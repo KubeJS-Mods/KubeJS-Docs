@@ -1,0 +1,8 @@
+extends EventJS
+event jei.remove.recipes
+
+Collection<IRecipeCategory<Object>> getCategories()
+
+Collection<ResourceLocation> getCategoryIds()
+
+void remove(ResourceLocation category, VarArray<ResourceLocation> recipesToRemove)

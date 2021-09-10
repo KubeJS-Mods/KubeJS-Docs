@@ -1,0 +1,18 @@
+source https://github.com/KubeJS-Mods/KubeJS/blob/main/common/src/main/java/dev/latvian/kubejs/server/TagEventJS.java
+generic T
+extends EventJS
+event item.tags
+event block.tags
+event fluid.tags
+event entity_type.tags
+event <custom_type>.tags
+
+String getType()
+
+void add(ResourceLocation tag, Object id)
+
+void remove(ResourceLocation tag, Object id)
+
+void removeAll(ResourceLocation tag)
+
+void removeAllTagsFrom(Object ids)
