@@ -166,11 +166,13 @@ void setOnFire(int seconds)
 
 void extinguish()
 
-MapJS getFullNBT()
+CompoundTag getFullNBT()
 
-void setFullNBT(MapJS n)
+void setFullNBT(CompoundTag tag)
 
-MapJS getNbt()
+void mergeFullNBT(CompoundTag tag)
+
+CompoundTag getNbt()
 
 void playSound(SoundEvent id, float volume, float pitch)
 

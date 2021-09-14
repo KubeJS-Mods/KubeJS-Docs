@@ -1,0 +1,81 @@
+implements IngredientJS
+
+Item getItem()
+
+ItemStack getItemStack()
+
+String getId()
+
+Collection<ResourceLocation> getTags()
+
+boolean hasTag(ResourceLocation tag)
+
+void setCount(int count)
+
+itself withCount(int c)
+
+boolean isBlock()
+
+nullable CompoundTag getNbt()
+
+boolean hasNBT()
+
+String getNbtString()
+
+nullable CompoundTag getMinecraftNbt()
+
+itself removeNBT()
+
+itself withNBT(CompoundTag nbt)
+
+boolean hasChance()
+
+void removeChance()
+
+void setChance(double c)
+
+double getChance()
+
+itself withChance(double c)
+
+Text getName()
+
+itself withName(nullable Text displayName)
+
+boolean strongEquals(Object o)
+
+MapJS getEnchantments()
+
+boolean hasEnchantment(Enchantment enchantment, int level)
+
+itself enchant(MapJS enchantments)
+
+itself enchant(Enchantment enchantment, int level)
+
+String getMod()
+
+IngredientJS ignoreNBT()
+
+IngredientJS weakNBT()
+
+boolean areItemsEqual(ItemStackJS other)
+
+boolean areItemsEqual(ItemStack other)
+
+boolean isNBTEqual(ItemStackJS other)
+
+boolean isNBTEqual(ItemStack other)
+
+int getHarvestLevel(ToolType tool, nullable PlayerJS player, nullable BlockContainerJS block)
+
+int getHarvestLevel(ToolType tool)
+
+float getHarvestSpeed(nullable BlockContainerJS block)
+
+float getHarvestSpeed()
+
+JsonElement toResultJson()
+
+CompoundTag toNBT()
+
+String getItemGroup()

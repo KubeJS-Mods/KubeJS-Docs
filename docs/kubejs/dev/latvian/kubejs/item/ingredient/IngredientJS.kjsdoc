@@ -1,0 +1,41 @@
+interface
+
+boolean test(ItemStackJS stack)
+
+default boolean testVanilla(ItemStack stack)
+
+default boolean testVanillaItem(Item item)
+
+default Predicate<ItemStack> getVanillaPredicate()
+
+default boolean isEmpty()
+
+default boolean isInvalidRecipeIngredient()
+
+default Set<ItemStackJS> getStacks()
+
+default Set<Item> getVanillaItems()
+
+default Set<String> getItemIds()
+
+default itself filter(IngredientJS filter)
+
+default itself not()
+
+default ItemStackJS getFirst()
+
+default itself withCount(int count)
+
+default IngredientJS copy()
+
+default int getCount()
+
+default JsonElement toJson()
+
+default boolean anyStackMatches(IngredientJS ingredient)
+
+default IngredientStackJS asIngredientStack()
+
+default List<IngredientJS> unwrapStackIngredient()
+
+default Ingredient createVanillaIngredient()
