@@ -26,6 +26,15 @@
 - binding JSClassName (used for global bindings such as UUIDWrapper as UUID)
 - source URL
 
+### Constructor syntax
+
+- \# Constructor info
+- \# @param1 Param info
+- throws ExceptionClassName (one line per exception)
+- constructor()
+- constructor(int param1)
+- constructor(int param1, int param2)
+
 ### Field syntax
 
 - \# Field info

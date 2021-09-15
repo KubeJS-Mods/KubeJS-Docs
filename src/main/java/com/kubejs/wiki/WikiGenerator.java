@@ -191,10 +191,50 @@ public class WikiGenerator {
 							case "throws" -> {
 								if (lastObject instanceof DocMethod) {
 									((DocMethod) lastObject).throwsTypes.add(reader.readJavaName());
+								} else if (lastObject instanceof DocConstructor) {
+									((DocConstructor) lastObject).throwsTypes.add(reader.readJavaName());
 								}
 							}
 							case "displayname", "alias" -> {
 								// Ignore
+							}
+							case "constructor" -> {
+								String t = reader.readJavaName();
+								DocType dt = readType(c, lineGenerics, t, reader);
+
+								if (reader.skipWhitespace().read(CharTest.FUNC_OPEN).equals("(")) {
+									DocConstructor constructor = new DocConstructor();
+									constructor.type = dt;
+									lastObject = constructor;
+									constructor.generics.addAll(extraGenerics);
+
+									if (!reader.skipWhitespace().read(CharTest.FUNC_CLOSE).equals(")")) {
+										do {
+											String pt = reader.readJavaName();
+											boolean pNullable = false;
+											boolean pDefault = false;
+
+											if (pt.equals("nullable")) {
+												pNullable = true;
+												pt = reader.readJavaName();
+											}
+
+											if (pt.equals("default")) {
+												pDefault = true;
+												pt = reader.readJavaName();
+											}
+
+											DocParam p = new DocParam();
+											p.type = readType(c, lineGenerics, pt, reader);
+											p.name = reader.readJavaName();
+											p.modNullable = pNullable;
+											p.modDefault = pDefault;
+											constructor.params.add(p);
+										} while (!reader.isEOL() && !reader.skipWhitespace().read(CharTest.FUNC_CLOSE_OR_COMMA).equals(")"));
+									}
+
+									c.constructors.add(constructor);
+								}
 							}
 							default -> {
 								String t = type;

@@ -23,6 +23,7 @@ public class DocClass extends TypedDocumentedObject {
 	public DocType extendsType;
 	public List<String> generics = new ArrayList<>(0);
 	public List<DocType> implementsTypes = new ArrayList<>(0);
+	public List<DocConstructor> constructors = new ArrayList<>(0);
 	public List<DocField> fields = new ArrayList<>(0);
 	public List<DocMethod> methods = new ArrayList<>(5);
 	public List<String> events = new ArrayList<>(0);
@@ -40,10 +41,6 @@ public class DocClass extends TypedDocumentedObject {
 	public String getPathName() {
 		int i = name.lastIndexOf('.');
 		return i == -1 ? name : name.substring(i + 1);
-	}
-
-	public boolean is(DocClass c) {
-		return this == c || name.equals(c.name);
 	}
 
 	public DocBean bean(String name) {
@@ -136,6 +133,16 @@ public class DocClass extends TypedDocumentedObject {
 			}
 
 			o.add("implements", a);
+		}
+
+		if (!constructors.isEmpty()) {
+			JsonArray a = new JsonArray();
+
+			for (DocConstructor c : constructors) {
+				a.add(c.toJson());
+			}
+
+			o.add("constructors", a);
 		}
 
 		if (!fields.isEmpty()) {
