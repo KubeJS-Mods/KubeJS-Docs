@@ -1,0 +1,4 @@
+extends MekanismRecipeJS
+recipe mekanism:chemical_infusing
+
+constructor(ChemicalStack output, GasStackIngredient input)

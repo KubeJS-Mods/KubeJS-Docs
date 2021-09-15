@@ -1,0 +1,2 @@
+extends MekanismRecipeJS
+recipe mekanism:gas_conversion

@@ -1,0 +1,6 @@
+extends MekanismRecipeJS
+recipe mekanism:crushing
+recipe mekanism:enriching
+recipe mekanism:smelting
+
+constructor(ItemStackJS output, IngredientJS input)

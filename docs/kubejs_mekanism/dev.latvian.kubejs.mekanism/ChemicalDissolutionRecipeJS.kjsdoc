@@ -1,0 +1,8 @@
+extends MekanismRecipeJS
+recipe mekanism:dissolution
+
+constructor(ChemicalStack output, GasStackIngredient gasInput, IngredientJS itemInput)
+
+itself inputGas(GasStackIngredient i)
+
+itself outputChemical(ChemicalStack s)

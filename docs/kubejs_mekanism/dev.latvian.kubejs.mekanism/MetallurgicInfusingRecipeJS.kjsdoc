@@ -1,0 +1,6 @@
+extends MekanismRecipeJS
+recipe mekanism:metallurgic_infusing
+
+constructor(ItemStackJS output, IngredientJS input)
+constructor(ItemStackJS output, IngredientJS itemInput, String infusionTag)
+constructor(ItemStackJS output, IngredientJS itemInput, String infusionTag, int infusionAmount)

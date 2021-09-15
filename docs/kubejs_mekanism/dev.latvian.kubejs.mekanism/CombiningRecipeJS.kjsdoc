@@ -1,0 +1,4 @@
+extends MekanismRecipeJS
+recipe mekanism:combining
+
+constructor(ItemStackJS output, IngredientJS mainInput, IngredientJS extraInput)

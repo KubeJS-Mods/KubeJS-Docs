@@ -1,0 +1,5 @@
+extends MekanismRecipeJS
+recipe mekanism:sawing
+
+constructor(ItemStackJS output, IngredientJS input)
+constructor(ItemStackJS output, IngredientJS input, ItemStackJS secondaryOutput)

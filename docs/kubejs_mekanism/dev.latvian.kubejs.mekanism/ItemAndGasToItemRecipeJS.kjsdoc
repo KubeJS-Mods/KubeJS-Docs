@@ -1,0 +1,8 @@
+extends MekanismRecipeJS
+recipe mekanism:compressing
+recipe mekanism:purifying
+recipe mekanism:injecting
+
+constructor(ChemicalStack output, IngredientJS itemInput, GasStackIngredient gasInput)
+
+itself inputGas(GasStackIngredient s)
