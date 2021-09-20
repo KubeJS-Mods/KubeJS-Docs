@@ -22,8 +22,6 @@ boolean hasNBT()
 
 String getNbtString()
 
-nullable CompoundTag getMinecraftNbt()
-
 itself removeNBT()
 
 itself withNBT(CompoundTag nbt)
