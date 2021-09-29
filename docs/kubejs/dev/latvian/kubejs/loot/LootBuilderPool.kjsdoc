@@ -1,0 +1,21 @@
+implements FunctionContainer
+implements ConditionContainer
+
+RandomIntGenerator rolls
+nullable RandomIntGenerator bonusRolls
+
+JsonObject toJson()
+
+itself addEntry(JsonObject entry)
+
+itself addEmpty(int weight)
+
+itself addLootTable(ResourceLocation table)
+
+itself addItem(ItemStackJS item, int weight, nullable RandomIntGenerator count)
+
+itself addItem(ItemStackJS item, int weight)
+
+itself addItem(ItemStackJS item)
+
+itself addTag(ResourceLocation tag, boolean expand)

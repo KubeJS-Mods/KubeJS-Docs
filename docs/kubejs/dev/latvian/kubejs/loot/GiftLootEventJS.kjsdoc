@@ -1,0 +1,4 @@
+extends LootEventJS
+event gift.loot_tables
+
+void addGift(ResourceLocation id, Consumer<LootBuilder> b)

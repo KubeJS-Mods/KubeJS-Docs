@@ -1,0 +1,4 @@
+extends LootEventJS
+event chest.loot_tables
+
+void addChest(ResourceLocation id, Consumer<LootBuilder> b)

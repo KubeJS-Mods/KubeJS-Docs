@@ -1,0 +1,4 @@
+extends LootEventJS
+event fishing.loot_tables
+
+void addFishing(ResourceLocation id, Consumer<LootBuilder> b)

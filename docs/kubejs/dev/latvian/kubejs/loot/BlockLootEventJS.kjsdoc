@@ -1,0 +1,10 @@
+extends LootEventJS
+event block.loot_tables
+
+void addBlock(BlockStatePredicate blocks, Consumer<LootBuilder> b)
+
+void addSimpleBlock(BlockStatePredicate blocks)
+
+void addSimpleBlock(BlockStatePredicate blocks, ItemStackJS item)
+
+void modifyBlock(BlockStatePredicate blocks, Consumer<LootBuilder> b)

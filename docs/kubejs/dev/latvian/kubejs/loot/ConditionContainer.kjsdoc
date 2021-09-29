@@ -1,0 +1,19 @@
+interface
+
+itself addCondition(JsonObject o)
+
+default itself randomChance(double chance)
+
+default itself randomChanceWithLooting(double chance, double multiplier)
+
+default itself survivesExplosion()
+# Block only
+
+default itself entityProperties(LootContextEntityTarget entity, JsonObject properties)
+# Entity only
+
+default itself killedByPlayer()
+# Entity only
+
+default itself entityScores(LootContextEntityTarget entity, JsonObject scores)
+# Entity only

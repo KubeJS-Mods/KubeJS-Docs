@@ -1,0 +1,6 @@
+extends LootEventJS
+event entity.loot_tables
+
+void addEntity(EntityType type, Consumer<LootBuilder> b)
+
+void modifyEntity(EntityType type, Consumer<LootBuilder> b)

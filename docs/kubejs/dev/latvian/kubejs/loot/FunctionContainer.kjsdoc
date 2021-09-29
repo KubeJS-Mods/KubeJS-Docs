@@ -1,0 +1,28 @@
+interface
+
+itself addFunction(JsonObject o)
+
+default itself addConditionalFunction(Consumer<ConditionalFunction> func)
+
+default itself count(RandomIntGenerator count)
+
+default itself enchantWithLevels(RandomIntGenerator levels, boolean treasure)
+
+default itself enchantRandomly(Array<ResourceLocation> enchantments)
+
+default itself nbt(CompoundTag tag)
+
+default itself furnaceSmelt()
+
+default itself lootingEnchant(RandomIntGenerator count, int limit)
+
+default itself damage(RandomIntGenerator damage)
+
+default itself name(Text name, nullable LootContextEntityTarget entity)
+
+default itself name(Text name)
+
+default itself copyName(String source)
+# Valid source types: 'this', 'killer', 'killer_player', 'block_entity'
+
+default itself lootTable(ResourceLocation table, long seed)

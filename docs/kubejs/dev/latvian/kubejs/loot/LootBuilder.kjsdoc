@@ -1,0 +1,12 @@
+implements FunctionContainer
+implements ConditionContainer
+
+JsonObject toJson()
+
+void addPool(Consumer<LootBuilderPool> pool)
+
+void clearPools()
+
+void clearFunctions()
+
+void clearConditions()

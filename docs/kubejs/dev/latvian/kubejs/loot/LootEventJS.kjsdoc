@@ -1,0 +1,11 @@
+extends EventJS
+
+void addJson(ResourceLocation id, JsonObject json)
+
+String getType()
+
+String getDirectory()
+
+void modify(ResourceLocation id, Consumer<LootBuilder> b)
+
+void removeAll()

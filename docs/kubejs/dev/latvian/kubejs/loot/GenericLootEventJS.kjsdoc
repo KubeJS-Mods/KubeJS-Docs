@@ -1,0 +1,4 @@
+extends LootEventJS
+event generic.loot_tables
+
+void addGeneric(ResourceLocation id, Consumer<LootBuilder> b)

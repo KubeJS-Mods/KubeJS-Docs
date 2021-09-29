@@ -1,0 +1,3 @@
+enum
+
+# A string enum. Valid values are 'this', 'killer', 'direct_killer', 'killer_player'
