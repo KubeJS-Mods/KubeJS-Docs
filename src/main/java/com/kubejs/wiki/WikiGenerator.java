@@ -194,6 +194,12 @@ public class WikiGenerator {
 								field.type = c.itselfType();
 								lastObject = field;
 								field.modStatic = true;
+								field.enumConstant = reader.readJavaName();
+
+								if (field.enumConstant.isEmpty()) {
+									field.enumConstant = field.name;
+								}
+
 								c.fields.add(field);
 							}
 							case "throws" -> {

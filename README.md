@@ -56,14 +56,14 @@
 
 Chained before type, seperated by space, e.g. `static final int NAME`
 
-| Name | Field | Method | Parameter | Info |
-|---|---|---|---|---|
-| `nullable` | Yes | Yes | Yes | Member can be null, should be checked with if(x) first |
-| `static` | Yes | Yes | No | Member is static |
-| `readonly` | Yes | Yes | No | Member is immutable, trying to set it will most likely crash |
-| `default` | No | Yes | Yes | Either a default method or an optional param |
-| `deprecated` | Yes | Yes | No | It's no longer recommended to use this member |
-| `itself` | No | Yes | Yes | Indicates that this method returns its own type and is either a builder or a modified copy. You dont specify type with this modifier |
+| Name         | Field | Method | Parameter | Info                                                                                                                                 |
+|--------------|-------|--------|-----------|--------------------------------------------------------------------------------------------------------------------------------------|
+| `nullable`   | Yes   | Yes    | Yes       | Member can be null, should be checked with if(x) first                                                                               |
+| `static`     | Yes   | Yes    | No        | Member is static                                                                                                                     |
+| `readonly`   | Yes   | Yes    | No        | Member is immutable, trying to set it will most likely crash                                                                         |
+| `default`    | No    | Yes    | Yes       | Either a default method or an optional param                                                                                         |
+| `deprecated` | Yes   | Yes    | No        | It's no longer recommended to use this member                                                                                        |
+| `itself`     | No    | Yes    | Yes       | Indicates that this method returns its own type and is either a builder or a modified copy. You dont specify type with this modifier |
 
 ### Other
 
