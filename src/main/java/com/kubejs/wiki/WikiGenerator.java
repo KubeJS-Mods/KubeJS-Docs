@@ -188,6 +188,14 @@ public class WikiGenerator {
 							case "recipe" -> c.recipes.add(reader.skipWhitespace().read(CharTest.RESOURCE_LOCATION));
 							case "binding" -> c.binding = reader.readJavaName();
 							case "source" -> c.source = reader.skipWhitespace().readAll();
+							case "enumconstant" -> {
+								DocField field = new DocField();
+								field.name = reader.readJavaName();
+								field.type = c.itselfType();
+								lastObject = field;
+								field.modStatic = true;
+								c.fields.add(field);
+							}
 							case "throws" -> {
 								if (lastObject instanceof DocMethod) {
 									((DocMethod) lastObject).throwsTypes.add(reader.readJavaName());
@@ -240,7 +248,7 @@ public class WikiGenerator {
 								String t = type;
 								boolean modNullable = false;
 								boolean modStatic = false;
-								boolean modFinal = false;
+								boolean modReadonly = false;
 								boolean modDeprecated = false;
 								boolean modDefault = false;
 								boolean modItself = false;
@@ -259,8 +267,8 @@ public class WikiGenerator {
 									t = reader.readJavaName();
 								}
 
-								if (t.equals("final")) {
-									modFinal = true;
+								if (t.equals("readonly")) {
+									modReadonly = true;
 									t = reader.readJavaName();
 								}
 
@@ -270,8 +278,8 @@ public class WikiGenerator {
 								}
 
 								if (t.equals("default")) {
-									if (modFinal) {
-										throw new DocException("Can't mix 'default' and 'final'!");
+									if (modReadonly) {
+										throw new DocException("Can't mix 'default' and 'readonly'!");
 									}
 
 									modDefault = true;
@@ -296,7 +304,7 @@ public class WikiGenerator {
 									lastObject = method;
 									method.modNullable = modNullable;
 									method.modStatic = modStatic;
-									method.modFinal = !modFinal;
+									method.modReadonly = !modReadonly;
 									method.modDeprecated = modDeprecated;
 									method.modDefault = modDefault;
 									method.modItself = modItself;
@@ -391,7 +399,7 @@ public class WikiGenerator {
 									field.name = name;
 									field.type = dt;
 									lastObject = field;
-									field.access = modFinal ? 0 : 1;
+									field.access = modReadonly ? 0 : 1;
 									field.modNullable = modNullable;
 									field.modStatic = modStatic;
 									field.modDeprecated = modDeprecated;

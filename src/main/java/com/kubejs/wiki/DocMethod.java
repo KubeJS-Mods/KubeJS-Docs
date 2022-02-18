@@ -10,7 +10,7 @@ public class DocMethod extends TypedDocumentedObject {
 	public List<DocParam> params = new ArrayList<>(0);
 	public boolean modNullable = false;
 	public boolean modStatic = false;
-	public boolean modFinal = false;
+	public boolean modReadonly = false;
 	public boolean modDeprecated = false;
 	public boolean modDefault = false;
 	public boolean modItself = false;

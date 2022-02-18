@@ -1,6 +1,6 @@
 extends LivingEntityJS
 
-final Player minecraftPlayer
+readonly Player minecraftPlayer
 
 AttachedData getData()
 

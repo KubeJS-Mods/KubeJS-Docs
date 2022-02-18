@@ -1,3 +1,6 @@
 enum
 
-# A string enum. Valid values are 'this', 'killer', 'direct_killer', 'killer_player'
+enumconstant THIS this
+enumconstant KILLER killer
+enumconstant DIRECT_KILLER direct_killer
+enumconstant KILLER_PLAYER killer_player

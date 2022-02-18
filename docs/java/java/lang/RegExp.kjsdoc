@@ -1,12 +1,12 @@
 primitive
 
-final int lastIndex
+readonly int lastIndex
 
-final boolean ignoreCase
+readonly boolean ignoreCase
 
-final boolean multiline
+readonly boolean multiline
 
-final String source
+readonly String source
 
 itself compile()
 

@@ -1,4 +1,4 @@
-final DamageSource source
+readonly DamageSource source
 
 WorldJS getWorld()
 

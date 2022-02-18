@@ -15,72 +15,72 @@ boolean hasStyle()
 
 Style createStyle()
 
-final itself color(Color c)
+readonly itself color(Color c)
 
-final itself black()
+readonly itself black()
 
-final itself darkBlue()
+readonly itself darkBlue()
 
-final itself darkGreen()
+readonly itself darkGreen()
 
-final itself darkAqua()
+readonly itself darkAqua()
 
-final itself darkRed()
+readonly itself darkRed()
 
-final itself darkPurple()
+readonly itself darkPurple()
 
-final itself gold()
+readonly itself gold()
 
-final itself gray()
+readonly itself gray()
 
-final itself darkGray()
+readonly itself darkGray()
 
-final itself blue()
+readonly itself blue()
 
-final itself green()
+readonly itself green()
 
-final itself aqua()
+readonly itself aqua()
 
-final itself red()
+readonly itself red()
 
-final itself lightPurple()
+readonly itself lightPurple()
 
-final itself yellow()
+readonly itself yellow()
 
-final itself white()
+readonly itself white()
 
-final itself noColor()
+readonly itself noColor()
 
-final itself bold(nullable Boolean value)
+readonly itself bold(nullable Boolean value)
 
-final itself bold()
+readonly itself bold()
 
-final itself italic(nullable Boolean value)
+readonly itself italic(nullable Boolean value)
 
-final itself italic()
+readonly itself italic()
 
-final itself underlined(nullable Boolean value)
+readonly itself underlined(nullable Boolean value)
 
-final itself underlined()
+readonly itself underlined()
 
-final itself strikethrough(nullable Boolean value)
+readonly itself strikethrough(nullable Boolean value)
 
-final itself strikethrough()
+readonly itself strikethrough()
 
-final itself obfuscated(nullable Boolean value)
+readonly itself obfuscated(nullable Boolean value)
 
-final itself obfuscated()
+readonly itself obfuscated()
 
-final itself insertion(nullable String value)
+readonly itself insertion(nullable String value)
 
-final itself font(nullable String value)
+readonly itself font(nullable String value)
 
-final itself click(nullable String value)
+readonly itself click(nullable String value)
 
-final itself hover(Object text)
+readonly itself hover(Object text)
 
-final itself append(Object sibling)
+readonly itself append(Object sibling)
 
-final List<Text> getSiblings()
+readonly List<Text> getSiblings()
 
-final boolean hasSiblings()
+readonly boolean hasSiblings()

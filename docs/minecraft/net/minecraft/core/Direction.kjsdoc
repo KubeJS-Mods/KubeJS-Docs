@@ -1,11 +1,11 @@
 enum
 
-static final Direction DOWN
-static final Direction UP
-static final Direction NORTH
-static final Direction SOUTH
-static final Direction WEST
-static final Direction EAST
+enumconstant DOWN down
+enumconstant UP up
+enumconstant NORTH north
+enumconstant SOUTH south
+enumconstant WEST west
+enumconstant EAST east
 
 int getX()
 

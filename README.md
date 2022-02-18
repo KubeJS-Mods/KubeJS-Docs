@@ -9,22 +9,25 @@
 
 ### Class syntax
 
-- \# Class info
-- displayName DisplayName
-- extends ClassName (defaults to Object)
-- implements ClassName (one line for each interface)
-- typescript `void`|`number`|`string`|`boolean`|CustomTSClassName (defaults to itself)
-- primitive
-- interface
-- enum
-- annotation
-- alias DifferentClassName
-- generic E (define generic type, used for classes like List<E>, one line for each generic)
-- event eventname (only for event classes, one line for each event)
-- recipe namespace:recipe_id (for classes that are a recipe type wrapper, one line for each type)
-- canCancel `true`|`false` (only for event classes, defaults to `false`)
-- binding JSClassName (used for global bindings such as UUIDWrapper as UUID)
-- source URL
+| Key                                 | Example                               | Information                                                                                                       |
+|-------------------------------------|:--------------------------------------|-------------------------------------------------------------------------------------------------------------------|
+| \# Class info                       | \# This is a native byte              | Comment                                                                                                           |
+| displayName \<DisplayName>          | displayName byte                      | Display name for the class                                                                                        |
+| extends                             | extends Number                        | Parent class (defaults to Object)                                                                                 |
+| implements                          | implements CharSequence               | Interfaces implemented by the class                                                                               |
+| typescript \<CustomTSClassName>     | typescript number                     | Custom typescript type                                                                                            |
+| primitive                           | primitive                             | Mark this class as primitive                                                                                      |
+| interface                           | interface                             | Mark this class as interface                                                                                      |
+| enum                                | enum                                  | Mark this class as enum                                                                                           |
+| enumconstant \<FIELD_NAME> \[alias] | enumconstant UP up                    | Define enum constants. Alias is optional if string can be used in place of enum, e.g 'up' instead of Direction.UP |
+| annotation                          | annotation                            | Mark this class as annotation                                                                                     |
+| alias \<DifferentClassName>         | alias string                          | Allow another name to be used for this class in docs                                                              |
+| generic \<Name>                     | generic E                             | Define generic type, used for classes like List\<E>, one line for each generic                                    |
+| event eventname                     | event block.right_click               | Only for event classes, one line for each event                                                                   |
+| recipe namespace:recipe_id          | recipe minecraft:smelting             | For classes that are a recipe type wrapper, one line for each type                                                |
+| canCancel `true`&#124;`false`       | canCancel true                        | Only for event classes, defaults to `false`                                                                       | 
+| binding \<JSClassName>              | binding                               | Used for global bindings such as UUIDWrapper as UUID                                                              |
+| source \<url>                       | source https://github.com/KubeJS-Mods | Source code URL                                                                                                   |
 
 ### Constructor syntax
 
@@ -57,7 +60,7 @@ Chained before type, seperated by space, e.g. `static final int NAME`
 |---|---|---|---|---|
 | `nullable` | Yes | Yes | Yes | Member can be null, should be checked with if(x) first |
 | `static` | Yes | Yes | No | Member is static |
-| `final` | Yes | Yes | No | Member is immutable, trying to set it will most likely crash |
+| `readonly` | Yes | Yes | No | Member is immutable, trying to set it will most likely crash |
 | `default` | No | Yes | Yes | Either a default method or an optional param |
 | `deprecated` | Yes | Yes | No | It's no longer recommended to use this member |
 | `itself` | No | Yes | Yes | Indicates that this method returns its own type and is either a builder or a modified copy. You dont specify type with this modifier |
@@ -100,7 +103,7 @@ DamageSourceJS getSource()
 
 ### Testing
 
-You can test if docs build properly if you have JDK 16 and you run `./gradlew run`
+You can test if docs build properly if you have JDK 17 and you run `./gradlew run`
 
 ### Generated Data
 

@@ -1,6 +1,6 @@
-final EntityJS fromEntity
-final String type
-final double distance
+readonly EntityJS fromEntity
+readonly String type
+readonly double distance
 
 double hitX
 double hitY

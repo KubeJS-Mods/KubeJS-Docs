@@ -1,4 +1,4 @@
 enum
 
-static final InteractionHand MAIN_HAND
-static final InteractionHand OFF_HAND
+enumconstant MAIN_HAND main_hand
+enumconstant OFF_HAND off_hand

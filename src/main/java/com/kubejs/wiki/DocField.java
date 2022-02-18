@@ -7,6 +7,7 @@ public class DocField extends TypedDocumentedObject {
 	public boolean modNullable = false;
 	public boolean modStatic = false;
 	public boolean modDeprecated = false;
+	public String enumConstantAlias = "";
 
 	@Override
 	public JsonObject toJson() {
@@ -26,6 +27,10 @@ public class DocField extends TypedDocumentedObject {
 
 		if (modDeprecated) {
 			o.add("deprecated", true);
+		}
+
+		if (!enumConstantAlias.isEmpty()) {
+			o.add("enum_constant", enumConstantAlias);
 		}
 
 		return o;

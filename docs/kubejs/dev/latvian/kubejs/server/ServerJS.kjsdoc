@@ -1,4 +1,4 @@
-final ServerWorldJS overworld
+readonly ServerWorldJS overworld
 
 AttachedData getData()
 

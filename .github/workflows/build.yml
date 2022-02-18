@@ -2,7 +2,8 @@ name: Java CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - "main"
   workflow_dispatch:
     inputs:
       norelease:
@@ -16,23 +17,22 @@ jobs:
     if: |
       !contains(github.event.head_commit.message, '[ciskip]')
     steps:
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-      - uses: actions/checkout@v2
-      - name: Set up JDK 16
+      - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
-          java-version: '16'
-      - name: Set up Gradle
-        run: chmod +x ./gradlew
-      - name: Generate Docs
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Build and Publish with Gradle
+        uses: gradle/gradle-build-action@v2
         env:
           KUBEJS_DOCS_TOKEN: ${{ secrets.KUBEJS_DOCS_TOKEN }}
-        run: ./gradlew run --stacktrace
+        with:
+          arguments: run --stacktrace --no-daemon
+      - name: Release to CurseForge
+        uses: gradle/gradle-build-action@v2
+        if: |
+          contains(github.ref, 'main') && !contains(github.event.head_commit.message, '[norelease]') && github.event.inputs.norelease != 'true'
+        env:
+          GIT_COMMIT: ${{ github.event.after }}

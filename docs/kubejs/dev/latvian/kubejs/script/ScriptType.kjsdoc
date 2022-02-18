@@ -1,10 +1,10 @@
 enum
 
-static final ScriptType STARTUP
-static final ScriptType SERVER
-static final ScriptType CLIENT
+enumconstant STARTUP
+enumconstant SERVER
+enumconstant CLIENT
 
-final ConsoleJS console
+readonly ConsoleJS console
 
 boolean isClient()
 

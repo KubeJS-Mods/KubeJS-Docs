@@ -10,9 +10,9 @@ boolean add(String stage)
 
 boolean remove(String stage)
 
-final boolean set(String stage, boolean enabled)
+readonly boolean set(String stage, boolean enabled)
 
-final boolean toggle(String stage)
+readonly boolean toggle(String stage)
 
 boolean clear()
 

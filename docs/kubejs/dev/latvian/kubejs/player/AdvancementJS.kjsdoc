@@ -1,4 +1,4 @@
-final Advancement advancement
+readonly Advancement advancement
 
 ResourceLocation id()
 

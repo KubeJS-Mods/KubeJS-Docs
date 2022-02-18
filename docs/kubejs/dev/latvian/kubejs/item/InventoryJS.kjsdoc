@@ -1,4 +1,4 @@
-final ItemHandler minecraftInventory
+readonly ItemHandler minecraftInventory
 
 int getSize()
 

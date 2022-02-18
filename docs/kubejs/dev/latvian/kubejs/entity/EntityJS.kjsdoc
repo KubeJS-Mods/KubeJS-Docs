@@ -1,6 +1,6 @@
 implements MessageSender
 
-final Entity minecraftEntity
+readonly Entity minecraftEntity
 
 WorldJS getWorld()
 
